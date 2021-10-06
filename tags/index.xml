@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Speech Research</title>
+    <link>https://speechresearch.github.io/tags/</link>
+    <description>Recent content in Tags on Speech Research</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 06 Oct 2021 21:35:07 +0800</lastBuildDate>
+    
+	<atom:link href="https://speechresearch.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Speech</title>
+      <link>https://speechresearch.github.io/tags/speech/</link>
+      <pubDate>Wed, 06 Oct 2021 21:35:07 +0800</pubDate>
+      
+      <guid>https://speechresearch.github.io/tags/speech/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MusicGeneration</title>
+      <link>https://speechresearch.github.io/tags/musicgeneration/</link>
+      <pubDate>Tue, 21 Sep 2021 12:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/tags/musicgeneration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LyricsGeneration</title>
+      <link>https://speechresearch.github.io/tags/lyricsgeneration/</link>
+      <pubDate>Mon, 16 Aug 2021 12:25:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/tags/lyricsgeneration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Singing</title>
+      <link>https://speechresearch.github.io/tags/singing/</link>
+      <pubDate>Fri, 14 Feb 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/tags/singing/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

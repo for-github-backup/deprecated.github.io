@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LyricsGeneration on Speech Research</title>
+    <link>https://speechresearch.github.io/categories/lyricsgeneration/</link>
+    <description>Recent content in LyricsGeneration on Speech Research</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 16 Aug 2021 12:25:00 +0901</lastBuildDate>
+    
+	<atom:link href="https://speechresearch.github.io/categories/lyricsgeneration/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DeepRapper: Neural Rap Generation with Rhyme and Rhythm Modeling</title>
+      <link>https://speechresearch.github.io/deeprapper/</link>
+      <pubDate>Mon, 16 Aug 2021 12:25:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/deeprapper/</guid>
+      <description>ArXiv: arXiv:2107.01875
+Authors  Lanqing Xue (Hong Kong University of Science and Technology) lxueaa@cse.ust.hk Kaitao Song (Nanjing University of Science and Technology) kt.song@njust.edu.cn Duocai Wu (Fudan University) dcwu18@fudan.edu.cn Xu Tan^ (Microsoft Research) xuta@microsoft.com Nevin L. Zhang (Hong Kong University of Science and Technology) lzhang@cse.ust.hk Wei-Qiang Zhang (Tsinghua University) wqzhang@tsinghua.edu.cn Tao Qin (Microsoft Research) taoqin@microsoft.com Tie-Yan Liu (Microsoft Research) tyliu@microsoft.com  ^ Corresponding author.
+Abstract Rap generation, which aims to produce lyrics and corresponding singing beats, needs to model both rhymes and rhythms.</description>
+    </item>
+    
+  </channel>
+</rss>

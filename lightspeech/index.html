@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>LightSpeech: Lightweight and Fast Text to Speech with Neural Architecture Search - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">LightSpeech: Lightweight and Fast Text to Speech with Neural Architecture Search</h1>
+			
+			<section itemprop="entry-text">
+				<br>
+<!--ArXiv: [arXiv:2002.10389](https://arxiv.org/abs/2002.10389)-->
+<h2 id="authors">Authors</h2>
+<ul>
+<li>Renqian Luo (University of Science and Technology of China) <a href="mailto:lrq@mail.ustc.edu.cn">lrq@mail.ustc.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Rui Wang (Microsoft Research) <a href="mailto:ruiwa@microsoft.com">ruiwa@microsoft.com</a></li>
+<li>Tao Qin (Microsoft Research) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Enhong Chen (University of Science and Technology of China) <a href="mailto:cheneh@ustc.edu.cn">cheneh@ustc.edu.cn</a></li>
+<li>Tie-Yan Liu (Microsoft Research) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<h2 id="abstract">Abstract</h2>
+<p>Text to speech (TTS) has been broadly used to synthesize natural and intelligible speech in different scenarios. Deploying TTS in various end devices such as mobile phones or embedded devices requires extremely small memory usage and inference latency. While non-autoregressive TTS models such as FastSpeech have achieved significantly faster inference speed than autoregressive models, their model size and inference latency are still large for the deployment in resource constrained devices. In this paper, we propose LightSpeech, which leverages neural architecture search (NAS) to automatically design more lightweight and efficient models based on FastSpeech. We first profile the components of current FastSpeech model and carefully design a novel search space containing various lightweight and potentially effective architectures. Then NAS is utilized to automatically discover well performing architectures within the search space. Experiments show that the model discovered by our method achieves 15x model compression ratio and 6.5x inference speedup on CPU with on par voice quality.</p>
+<!--## Model Architecture-->
+<!--<img src="../images/lightspeech/.jpg" width="100%"/>-->
+<h2 id="audio-samples">Audio Samples</h2>
+<p>All of the audio samples use Parallel WaveGAN (PWG) as vocoder.</p>
+<h3 id="compare-to-fastspeech-2">Compare to FastSpeech 2</h3>
+<p>*The general solidity of a page is much to be sought for.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0001.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0001.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*The modern printer, in the teeth of the evidence given by his own eyes, considers the single page as the unit, and prints the page in the middle of his paper.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*For where these are boldly and carefully designed, and each letter is thoroughly individual in form.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0003.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0003.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*The words may be set much closer together, without loss of clearness.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*No definite rules, however, except the avoidance of &ldquo;rivers&rdquo; and excess of white, can be given for the spacing.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0005.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0005.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="ablation-study">Ablation Study</h3>
+<p>FastSpeech 2*: manually designed lightweight FastSpeech 2 model.</p>
+<p>*Which requires the constant exercise of judgment and taste on the part of the printer.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2*</th>
+<th style="text-align: center">Random Search</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0006.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice3/0006.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice4/0006.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0006.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Only nominally so, however, in many cases, since when he uses a headline he counts that in.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2*</th>
+<th style="text-align: center">Random Search</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice3/0007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice4/0007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*From the time when books first took their present shape till the end of the sixteenth century, or indeed later.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2*</th>
+<th style="text-align: center">Random Search</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0008.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice3/0008.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice4/0008.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0008.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*The paper on which the printing is to be done is a necessary part of our subject.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2*</th>
+<th style="text-align: center">Random Search</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice3/0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice4/0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Of this it may be said that though there is some good paper made now.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2*</th>
+<th style="text-align: center">Random Search</th>
+<th style="text-align: center">LightSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice1/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice3/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice4/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lightspeech/voice2/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="https://arxiv.org/abs/1808.07233">Neural Architecture Optimization</a>
+<br>
+<a href="https://arxiv.org/abs/2007.04785">Neural Architecture Search with GBDT</a>
+<br>
+<a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a>
+<br>
+<a href="/fastspeech2/">FastSpeech 2: Fast and High-Quality End-to-End Text to Speech</a>
+<br>
+<a href="/LRSpeech/">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</a>
+<br>
+<a href="/unsuper/">Almost Unsupervised Text to Speech and Automatic Speech Recognition</a></p>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

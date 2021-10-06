@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>PriorGrad: Improving Conditional Denoising Diffusion Models with Data-Driven Adaptive Prior - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">PriorGrad: Improving Conditional Denoising Diffusion Models with Data-Driven Adaptive Prior</h1>
+			
+			<section itemprop="entry-text">
+				<p>ArXiv: <a href="https://arxiv.org/pdf/2106.06406.pdf">arXiv:2106.06406</a></p>
+<h2 id="authors">Authors</h2>
+<ul>
+<li>Sang-gil Lee (Data Science &amp; AI Lab., Seoul National University) <a href="mailto:tkdrlf9202@snu.ac.kr">tkdrlf9202@snu.ac.kr</a></li>
+<li>Heeseung Kim (Data Science &amp; AI Lab., Seoul National University) <a href="mailto:gmltmd789@snu.ac.kr">gmltmd789@snu.ac.kr</a></li>
+<li>Chaehun Shin (Data Science &amp; AI Lab., Seoul National University) <a href="mailto:chaehuny@snu.ac.kr">chaehuny@snu.ac.kr</a></li>
+<li>Xu Tan^ (Microsoft Research Asia) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Chang Liu (Microsoft Research Asia) <a href="mailto:changliu@microsoft.com">changliu@microsoft.com</a></li>
+<li>Qi Meng (Microsoft Research Asia) <a href="mailto:meq@microsoft.com">meq@microsoft.com</a></li>
+<li>Tao Qin (Microsoft Research Asia) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Wei Chen (Microsoft Research Asia) <a href="mailto:wche@microsoft.com">wche@microsoft.com</a></li>
+<li>Sungroh Yoon^ (Data Science &amp; AI Lab., Seoul National University) <a href="mailto:sryoon@snu.ac.kr">sryoon@snu.ac.kr</a></li>
+<li>Tie-Yan Liu (Microsoft Research Asia) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<!-- <small>\* Equal contribution.</small> -->
+<p><small>^ Corresponding authors.</small></p>
+<h2 id="abstract">Abstract</h2>
+<p>Denoising diffusion probabilistic models have been recently proposed to generate high-quality samples by estimating the gradient of the data density. The framework assumes the prior noise as a standard Gaussian distribution, whereas the corresponding data distribution may be more complicated than the standard Gaussian distribution, which potentially introduces inefficiency in denoising the prior noise into the data sample because of the discrepancy between the data and the prior. In this paper, we propose PriorGrad to improve the efficiency of the conditional diffusion model (for example, a vocoder using a mel-spectrogram as the condition) by applying an adaptive prior derived from the data statistics based on the conditional information. We formulate the training and sampling procedures of PriorGrad and demonstrate the advantages of an adaptive prior through a theoretical analysis. Focusing on the audio domain, we consider the recently proposed diffusion-based audio generative models based on both the spectral and time domains and show that PriorGrad achieves a faster convergence leading to data and parameter efficiency and improved quality, and thereby demonstrating the efficiency of a data-driven adaptive prior.</p>
+<h2 id="abstract">Contents</h2>
+<b><a href="#PriorGrad Vocoder Samples">PriorGrad Vocoder Samples</a></b><br>
+<a href="#1">1. Main samples</a><br>
+<a href="#2">2. Samples under different training steps</a><br>
+<a href="#3">3. Ablation studies</a><br>
+<a href="#4">4. Low-data experiments</a><br>
+<b><a href="#PriorGrad Acoustic Model Samples">PriorGrad Acoustic Model Samples</a></b><br>
+<a href="#5">1. Main samples</a><br>
+<h2 id="audio-samples-in-the-paper">Audio Samples in the Paper</h2>
+<p><span id="PriorGrad Vocoder Samples" name="PriorGrad Vocoder Samples"></span></p>
+<h2 id="PriorGrad Vocoder Samples">PriorGrad Vocoder Samples</h2>
+<p><span id="1.1" name="1.1"></span></p>
+<p><span id="Main samples"
+name="Main samples"></span></p>
+<h2 id="Main samples">Main samples</h2>
+<p><span id="1" name="1"></span></p>
+<p><em>a device which deceives nobody, and makes a book very unpleasant to read.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT + WaveGrad (1M)</th>
+<th style="text-align: center">GT + PriorGrad (300K)</th>
+<th style="text-align: center">FastSpeech 2 + WaveGrad (1M)</th>
+<th style="text-align: center">FastSpeech 2 + PriorGrad (300K)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/GT/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_baseline/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/300k_priorgrad/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/tts/fs2_wavegrad_1m_baseline/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/tts/fs2_wavegrad_300k_priorgrad/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>a measure which must greatly tend to discourage attempts to escape.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT + WaveGrad (1M)</th>
+<th style="text-align: center">GT + PriorGrad (300K)</th>
+<th style="text-align: center">FastSpeech 2 + WaveGrad (1M)</th>
+<th style="text-align: center">FastSpeech 2 + PriorGrad (300K)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/GT/0011.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_baseline/0011.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/300k_priorgrad/0011.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/tts/fs2_wavegrad_1m_baseline/0011.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/tts/fs2_wavegrad_300k_priorgrad/0011.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>They are both drawn at once by a windlass, and the unhappy culprits remain suspended.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT + WaveGrad (1M)</th>
+<th style="text-align: center">GT + PriorGrad (300K)</th>
+<th style="text-align: center">FastSpeech 2 + WaveGrad (1M)</th>
+<th style="text-align: center">FastSpeech 2 + PriorGrad (300K)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/GT/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_baseline/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/300k_priorgrad/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/tts/fs2_wavegrad_1m_baseline/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/tts/fs2_wavegrad_300k_priorgrad/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>the crowd began to congregate in and about the Old Bailey.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT + WaveGrad (1M)</th>
+<th style="text-align: center">GT + PriorGrad (300K)</th>
+<th style="text-align: center">FastSpeech 2 + WaveGrad (1M)</th>
+<th style="text-align: center">FastSpeech 2 + PriorGrad (300K)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/GT/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_baseline/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/300k_priorgrad/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/tts/fs2_wavegrad_1m_baseline/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/tts/fs2_wavegrad_300k_priorgrad/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span id="Samples under different training steps"
+name="Samples under different training steps"></span></p>
+<h2 id="Samples under different training steps">Samples under different training steps</h2>
+<p><span id="2" name="2"></span></p>
+<!--<p><em>a device which deceives nobody, and makes a book very unpleasant to read.</em></p>-->
+<table>
+<thead>
+<tr>
+<th style="text-align: center">WaveGrad (100K)</th>
+<th style="text-align: center">WaveGrad (500K)</th>
+<th style="text-align: center">WaveGrad (1M)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/100k_baseline/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/500k_baseline/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_baseline/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/100k_baseline/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/500k_baseline/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_baseline/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">PriorGrad (100K)</th>
+<th style="text-align: center">PriorGrad (500K)</th>
+<th style="text-align: center">PriorGrad (1M)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/100k_priorgrad/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/500k_priorgrad/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_priorgrad_cycle/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/100k_priorgrad/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/500k_priorgrad/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_priorgrad_cycle/0020.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span id="3" name="3"></span></p>
+<h2 id="Ablation studies">Ablation studies</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">PriorGrad (1M)</th>
+<th style="text-align: center">PriorGrad - cycle (1M)</th>
+<th style="text-align: center">WaveGrad + cycle (1M)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_priorgrad_cycle/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_priorgrad_nocycle/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_baseline_cycle/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_priorgrad_cycle/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_priorgrad_nocycle/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/vocoder/1m_baseline_cycle/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span id="4" name="4"></span></p>
+<h2 id="Low-data experiments">Low-data experiments</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">WaveGrad (1M)</th>
+<th style="text-align: center">PriorGrad (1M)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/lowdata/1m_baseline/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/lowdata/1m_priorgrad/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/lowdata/1m_baseline/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/lowdata/1m_priorgrad/0017.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span id="PriorGrad Acoustic Model Samples" name="PriorGrad Acoustic Model Samples"></span></p>
+<h2 id="PriorGrad Acoustic Model Samples">PriorGrad Acoustic Model Samples</h2>
+<p><span id="1.1" name="1.1"></span></p>
+<p><span id="Main samples"
+name="Main samples"></span></p>
+<h2 id="Main samples">Main samples</h2>
+<p><span id="5" name="5"></span></p>
+<p><em>in being comparatively modern.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">GT (PWG) </th>
+<th style="text-align: center">Baseline (Small, 300K)</th>
+<th style="text-align: center">PriorGrad (Small, 60K)</th>
+<th style="text-align: center">Baseline (Large, 300K)</th>
+<th style="text-align: center">PriorGrad (Large, 60K)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/GT_pwg/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/baseline_small_300k/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/priorgrad_small_60k/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/baseline_large_300k/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/priorgrad_large_60k/0001.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>the invention of movable metal letters in the middle of the fifteenth century may justly be considered as the invention of the art of printing.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">GT (PWG) </th>
+<th style="text-align: center">Baseline (Small, 300K)</th>
+<th style="text-align: center">PriorGrad (Small, 60K)</th>
+<th style="text-align: center">Baseline (Large, 300K)</th>
+<th style="text-align: center">PriorGrad (Large, 60K)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/GT_pwg/0004.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/baseline_small_300k/0004.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/priorgrad_small_60k/0004.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/baseline_large_300k/0004.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/priorgrad_large_60k/0004.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>And it is worth mention in passing that, as an example of fine typography,</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">GT (PWG) </th>
+<th style="text-align: center">Baseline (Small, 300K)</th>
+<th style="text-align: center">PriorGrad (Small, 60K)</th>
+<th style="text-align: center">Baseline (Large, 300K)</th>
+<th style="text-align: center">PriorGrad (Large, 60K)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/GT_pwg/0005.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/baseline_small_300k/0005.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/priorgrad_small_60k/0005.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/baseline_large_300k/0005.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/priorgrad_large_60k/0005.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Printing, then, for our purpose, may be considered as the art of making books by means of movable types.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">GT (PWG) </th>
+<th style="text-align: center">Baseline (Small, 300K)</th>
+<th style="text-align: center">PriorGrad (Small, 60K)</th>
+<th style="text-align: center">Baseline (Large, 300K)</th>
+<th style="text-align: center">PriorGrad (Large, 60K)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/GT_pwg/0008.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/baseline_small_300k/0008.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/priorgrad_small_60k/0008.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/baseline_large_300k/0008.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+<td style="text-align: center">
+<audio controls="controls">
+<source src="../audio/priorgrad/acoustic/priorgrad_large_60k/0008.wav" autoplay/>
+Your browser does not support the audio element.
+</audio>
+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="/lightspeech/">LightSpeech: Lightweight and Fast Text to Speech with Neural Architecture Search</a><br>
+<a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a><br>
+<a href="/adaspeech/">AdaSpeech: Adaptive Text to Speech for Custom Voice</a><br>
+<a href="/multispeech/">MultiSpeech: Multi-Speaker Text to Speech with Transformer</a><br>
+<a href="/lrspeech/">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</a><br></p>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

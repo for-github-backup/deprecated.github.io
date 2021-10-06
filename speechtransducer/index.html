@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>Speech-T: Transducer for Text to Speech and Beyond - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">Speech-T: Transducer for Text to Speech and Beyond</h1>
+			
+			<section itemprop="entry-text">
+				<h2 id="authors">Authors</h2>
+<ul>
+<li>Jiawei Chen (South China University of Technology) <a href="mailto:csjiaweichen@mail.scut.edu.cn">csjiaweichen@mail.scut.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research Asia) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Yichong Leng (University of Science and Technology of China) <a href="mailto:lyc123go@mail.ustc.edu.cn">lyc123go@mail.ustc.edu.cn</a></li>
+<li>Jin Xu (Tsinghua University) <a href="mailto:j-xu18@mails.tsinghua.edu.cn">j-xu18@mails.tsinghua.edu.cn</a></li>
+<li>Guihua Wen (South China University of Technology) <a href="mailto:crghwen@scut.edu.cn">crghwen@scut.edu.cn</a></li>
+<li>Tao Qin (Microsoft Research Asia) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Tie-Yan Liu (Microsoft Research Asia) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<h2 id="abstract">Abstract</h2>
+<p>Neural Transducer (e.g., RNN-T) has been widely used in automatic speech recognition (ASR) due to its capabilities of efficiently modeling monotonic alignments between input and output sequences and naturally supporting streaming inputs. Considering that monotonic alignments are also critical to text to speech (TTS) synthesis and streaming TTS is also an important application scenario, in this work, we explore the possibility of applying Transducer to TTS. However, it is challenging because: 1) it is difficult to trade off the emission (continuous mel-spectrogram prediction) probability and transition (ASR Transducer predicts blank token to indicate transition to next input) probability when calculating the output probability lattice in Transducer; 2) it is not easy to learn the alignments between text and speech through the output probability lattice. We propose SpeechTransducer (Speech-T for short), a Transformer based Transducer model that 1) addresses the first challenge with a new forward algorithm which separates the transition prediction from the continuous mel-spectrogram prediction when deriving the loss function of Transducer, and 2) addresses the second challenge with a diagonal constraint in the probability lattice to help the alignment learning. Experiments on LJSpeech datasets demonstrate that Speech-T is more robust than the attention based autoregressive TTS model due to its inherent monotonic alignments between text and speech and can naturally support streaming TTS with good voice quality. Furthermore, we extend Speech-T to support both TTS and ASR together for the first time, which enjoys several advantages including fewer parameters as well as streaming synthesis and recognition in a single model.</p>
+<h2 id="audio-samples">Audio Samples</h2>
+<p>All of the audio samples use Parallel WaveGAN (PWG) as vocoder.</p>
+<!-- *This is best furthered by the avoidance of irrational swellings and spiky projections, and by the using of careful purity of line.*
+
+<table><thead>
+<tr>
+<th style="text-align: center">GT+Vocoder </th>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/gt1.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/tt1.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/st1.wav" autoplay/></audio></td>
+</tr>
+</tbody></table> -->
+<p><em>Even the Caslon type when enlarged shows great shortcomings in this respect.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT+Vocoder </th>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/gt2.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/tt2.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/st2.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><em>There is a grossness in the upper finishings of letters like the c, the a, and so on.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT+Vocoder </th>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/gt3.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/tt3.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/st3.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><em>In short, it happens to this craft, as to others, that the utilitarian practice, though it professes to avoid ornament.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT+Vocoder </th>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/gt4.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/tt4.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/st4.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><em>in reading the modern figures the eyes must be strained before the reader can have any reasonable assurance.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT+Vocoder </th>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/gt5.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/tt5.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/st5.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><em>One of the differences between the fine type and the utilitarian must probably be put down to a misapprehension of a commercial necessity.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT+Vocoder </th>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/gt6.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/tt6.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/st6.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<h2 id="robustness-test">Robustness Test</h2>
+<p><em>You can call me directly at four two five seven zero three seven three four four or my cell four two five four four four seven four seven four or send me a meeting request with all the appropriate information .</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/tt2.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/st2.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><em>C colon backslash o one two f c p a r t y backslash d e v one two backslash oasys backslash legacy backslash web backslash HELP</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/tt3.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/st3.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><em>src backslash mapi backslash t n e f d e c dot c dot o l d backslash backslash m o z a r t f one backslash e x five</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/tt4.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/st4.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><em>copy backslash backslash j o h n f a n four backslash scratch backslash M i c r o s o f t dot S h a r e P o i n t dot</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/tt5.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/st5.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><em>zero zero zero zero zero zero zero zero two seven nine eight F three forty zero zero zero zero zero six four two eight zero one eight</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">TransformerTTS</th>
+<th style="text-align: center">Speech-T</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/tt6.wav" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/speechtransducer/robustness/st6.wav" autoplay/></audio></td>
+</tr>
+</tbody></table>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

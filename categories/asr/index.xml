@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ASR on Speech Research</title>
+    <link>https://speechresearch.github.io/categories/asr/</link>
+    <description>Recent content in ASR on Speech Research</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 06 Oct 2021 21:35:07 +0800</lastBuildDate>
+    
+	<atom:link href="https://speechresearch.github.io/categories/asr/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Speech-T: Transducer for Text to Speech and Beyond</title>
+      <link>https://speechresearch.github.io/speechtransducer/</link>
+      <pubDate>Wed, 06 Oct 2021 21:35:07 +0800</pubDate>
+      
+      <guid>https://speechresearch.github.io/speechtransducer/</guid>
+      <description>Authors  Jiawei Chen (South China University of Technology) csjiaweichen@mail.scut.edu.cn Xu Tan (Microsoft Research Asia) xuta@microsoft.com Yichong Leng (University of Science and Technology of China) lyc123go@mail.ustc.edu.cn Jin Xu (Tsinghua University) j-xu18@mails.tsinghua.edu.cn Guihua Wen (South China University of Technology) crghwen@scut.edu.cn Tao Qin (Microsoft Research Asia) taoqin@microsoft.com Tie-Yan Liu (Microsoft Research Asia) tyliu@microsoft.com  Abstract Neural Transducer (e.g., RNN-T) has been widely used in automatic speech recognition (ASR) due to its capabilities of efficiently modeling monotonic alignments between input and output sequences and naturally supporting streaming inputs.</description>
+    </item>
+    
+    <item>
+      <title>HiFiSinger: Towards High-Fidelity Neural Singing Voice Synthesis</title>
+      <link>https://speechresearch.github.io/hifisinger/</link>
+      <pubDate>Wed, 02 Sep 2020 00:02:05 +0800</pubDate>
+      
+      <guid>https://speechresearch.github.io/hifisinger/</guid>
+      <description>ArXiv: arXiv:2009.01776
+Authors  Microsoft STC Asia &amp; Microsoft Research Asia -- Jiawei Chen (Microsoft STC Asia) t-jiawch@microsoft.com Xu Tan* (Microsoft Research) xuta@microsoft.com Jian Luan (Microsoft STC Asia) jianluan@microsoft.com Tao Qin (Microsoft Research) taoqin@microsoft.com Tie-Yan Liu (Microsoft Research) tyliu@microsoft.com  *Corresponding author Abstract High-fidelity singing voices usually require higher sampling rate (e.g., 48kHz, compared with 16kHz or 24kHz in speaking voices) with large range of frequency to convey expression and emotion.</description>
+    </item>
+    
+    <item>
+      <title>MultiSpeech: Multi-Speaker Text to Speech with Transformer</title>
+      <link>https://speechresearch.github.io/multispeech/</link>
+      <pubDate>Sat, 09 May 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/multispeech/</guid>
+      <description>-- FastSpeech: Fast, Robust and Controllable Text to Speech -- Authors  Mingjian Chen (Perking University) milk@pku.edu.cn Xu Tan (Microsoft Research) xuta@microsoft.com Yi Ren (Zhejiang University) rayeren@zju.edu.cn Jin Xu (Tsinghua University) j-xu18@mails.tsinghua.edu.cn Hao Sun (Perking University) sigmeta@pku.edu.cn Sheng Zhao (Microsoft STC Asia) Sheng.Zhao@microsoft.com Tao Qin (Microsoft Research) taoqin@microsoft.com Tie-Yan Liu (Microsoft Research) tyliu@microsoft.com  TTS Audio Samples in the Paper Experiments on VCTK and LibriTTS VCTK speaker : Six spoons of fresh snow peas, five thick slabs of blue cheese, and maybe a snack for her brother Bob.</description>
+    </item>
+    
+    <item>
+      <title>LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</title>
+      <link>https://speechresearch.github.io/lrspeech/</link>
+      <pubDate>Sun, 02 Feb 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/lrspeech/</guid>
+      <description>ArXiv: arXiv:2008.03687
+Authors  Jin Xu (Tsinghua University) j-xu18@mails.tsinghua.edu.cn Xu Tan (Microsoft Research) xuta@microsoft.com Yi Ren (Zhejiang University) rayeren@zju.edu.cn Tao Qin (Microsoft Research) taoqin@microsoft.com Jian Li (Tsinghua University) lijian83@mail.tsinghua.edu.cn Sheng Zhao (Microsoft STC Asia) Sheng.Zhao@microsoft.com Tie-Yan Liu (Microsoft Research) tyliu@microsoft.com  Abstract Speech synthesis (text to speech, TTS) and recognition (automatic speech recognition, ASR) are important speech tasks, and require a large amount of text and speech pairs for model training.</description>
+    </item>
+    
+    <item>
+      <title>FastSpeech: Fast, Robust and Controllable Text to Speech</title>
+      <link>https://speechresearch.github.io/fastspeech/</link>
+      <pubDate>Fri, 10 May 2019 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/fastspeech/</guid>
+      <description>FastSpeech: Fast, Robust and Controllable Text to Speech -- ArXiv: arXiv:1905.09263
+Reddit Discussions: Click me
+Authors  Yi Ren* (Zhejiang University) rayeren@zju.edu.cn Yangjun Ruan* (Zhejiang University) ruanyj3107@zju.edu.cn Xu Tan (Microsoft Research) xuta@microsoft.com Tao Qin (Microsoft Research) taoqin@microsoft.com Sheng Zhao (Microsoft STC Asia) Sheng.Zhao@microsoft.com Zhou Zhao (Zhejiang University) zhaozhou@zju.edu.cn Tie-Yan Liu (Microsoft Research) tyliu@microsoft.com  * Equal contribution.
+Abstract Neural network based end-to-end text to speech (TTS) has significantly improved the quality of synthesized speech.</description>
+    </item>
+    
+    <item>
+      <title>Almost Unsupervised Text to Speech and Automatic Speech Recognition</title>
+      <link>https://speechresearch.github.io/unsuper/</link>
+      <pubDate>Wed, 10 Apr 2019 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/unsuper/</guid>
+      <description>Paper: Almost Unsupervised Text to Speech and Automatic Speech Recognition Authors  Yi Ren* (Zhejiang University) rayeren613@gmail.com Xu Tan* (Microsoft Research) xuta@microsoft.com Tao Qin (Microsoft Research) taoqin@microsoft.com Sheng Zhao (Microsoft) Sheng.Zhao@microsoft.com Zhou Zhao (Zhejiang University) zhaozhou@zju.edu.cn Tie-Yan Liu (Microsoft Research) tyliu@microsoft.com  * Equal contribution.
+Abstract Text to speech (TTS) and automatic speech recognition (ASR) are two dual tasks in speech processing and both achieve impressive performance thanks to the recent advance in deep learning and large amount of aligned speech and text data.</description>
+    </item>
+    
+  </channel>
+</rss>

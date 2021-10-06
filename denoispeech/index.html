@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>DenoiSpeech: Denoising Text to Speech with Frame-Level Noise Modeling - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">DenoiSpeech: Denoising Text to Speech with Frame-Level Noise Modeling</h1>
+			
+			<section itemprop="entry-text">
+				<br>
+<p>ArXiv: <a href="https://arxiv.org/abs/2012.09547">arXiv:2012.09547</a>
+(Accepted by ICASSP2021)</p>
+<h2 id="authors">Authors</h2>
+<ul>
+<li>Chen Zhang (Zhejiang University) <a href="mailto:zc99@zju.edu.cn">zc99@zju.edu.cn</a></li>
+<li>Yi Ren (Zhejiang University) <a href="mailto:rayeren@zju.edu.cn">rayeren@zju.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Jinglin Liu (Zhejiang University) <a href="mailto:jinglinliu@zju.edu.cn">jinglinliu@zju.edu.cn</a></li>
+<li>Kejun Zhang (Zhejiang University) <a href="mailto:zhangkejun@zju.edu.cn">zhangkejun@zju.edu.cn</a></li>
+<li>Tao Qin (Microsoft Research) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Sheng Zhao (Microsoft STC Asia) <a href="mailto:Sheng.Zhao@microsoft.com">Sheng.Zhao@microsoft.com</a></li>
+<li>Tie-Yan Liu (Microsoft Research) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<h2 id="abstract">Abstract</h2>
+<p>While neural-based text to speech (TTS) models can synthesize natural and intelligible voice, they usually require high-quality speech data, which is costly to collect. In many scenarios, only noisy speech of a target speaker is available, which presents challenges for TTS model training for this speaker.
+Previous works usually address the challenge in two ways: 1) training the TTS model using the speech denoised with an enhancement model; 2) taking a single noise embedding as input when training with noisy speech. However, they usually cannot handle noisy speech with complicated noise such as those with high variations along time.
+In this paper, we develop DenoiSpeech, a TTS system that can synthesize clean speech for a speaker with only noisy speech. We carefully design a noise condition module that is jointly trained with the TTS model and can capture the fine-grained frame-level noise information. Experimental results show that DenoiSpeech can generate clean speech in complicated noisy situations.</p>
+<h2 id="audio-samples">Audio Samples</h2>
+<p>All of the audio samples use Parallel WaveGAN (PWG) as vocoder.</p>
+<h3 id="artificial-noisy-speech-corpus">Artificial Noisy Speech Corpus</h3>
+<p>We use the VCTK corpus for speech information and the Nonspeech100 for background noise.</p>
+<h4 id="comparison-with-other-models">Comparison with Other Models</h4>
+<p><em>Did he trip?</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Clean GT</th>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/gt/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/noisy/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/enhance/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/disentangle/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/e2e/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Celtic were the losers then.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Clean GT</th>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/gt/02.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/noisy/02.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/enhance/02.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/disentangle/02.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/e2e/02.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>I saw the story, but that amount wouldn&rsquo;t even pay my commission.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Clean GT</th>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/gt/16.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/noisy/16.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/enhance/16.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/disentangle/16.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/e2e/16.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Basically we lost the game because we were outplayed.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Clean GT</th>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/gt/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/noisy/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/enhance/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/disentangle/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/e2e/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h4 id="ablation-study">Ablation Study</h4>
+<p><em>Did he trip?</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">DenoiSpeech</th>
+<th style="text-align: center">Without Noise Condition</th>
+<th style="text-align: center">Utterance-Level Noise Condition</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/e2e/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/borderline/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/global/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Fixed Noise Extractor</th>
+<th style="text-align: center">Without Adversarial CTC Module</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/two_stages/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/without_ctc/01.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Basically we lost the game because we were outplayed.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">DenoiSpeech</th>
+<th style="text-align: center">Without Noise Condition</th>
+<th style="text-align: center">Utterance-Level Noise Condition</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/e2e/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/borderline/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/global/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Fixed Noise Extractor</th>
+<th style="text-align: center">Without Adversarial CTC Module</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/two_stages/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/without_ctc/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><a name="short_time"></a></p>
+<h4 id="short-time-noise-case">Short-Time Noise Case</h4>
+<p><em>Basically we lost the game because we were outplayed.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Clean GT</th>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/gt/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/noisy/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/enhance/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/disentangle/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/artificial/e2e/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="real-world-noisy-speech-corpus">Real-World Noisy Speech Corpus</h3>
+<p><em>I want to sit down first.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/gt/05.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/e2e/05.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/disentangle/05.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/enhance/05.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Customers swarmed into the store.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/gt/08.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/e2e/08.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/disentangle/08.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/enhance/08.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Arizona already had a law in place that prohibited state-funded abortions.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/gt/09.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/e2e/09.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/disentangle/09.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/enhance/09.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Clinton poured cold water on such action.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Noisy GT</th>
+<th style="text-align: center">DenoiSpeech</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/gt/13.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/e2e/13.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">Augment-Adversarial</th>
+<th style="text-align: center">Enhancement-Based</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/disentangle/13.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/siri/enhance/13.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><a name="noise_vis"></a></p>
+<h2 id="visualization-of-extracted-noise">Visualization of Extracted Noise</h2>
+<p>Here are some comparisons of ground-truth noise and extracted noise by our noise extractor.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT Noise</th>
+<th style="text-align: center">Extracted Noise</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/noise/gt1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/noise/pred11.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">GT Noise</th>
+<th style="text-align: center">Extracted Noise</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center">
+<img src="../images/denoispeech/gt1.png" width="100%"/>
+</td>
+<td style="text-align: center">
+<img src="../images/denoispeech/pred1.png" width="100%"/>
+</td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">GT Noise</th>
+<th style="text-align: center">Extracted Noise</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/noise/gt2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/denoispeech/noise/pred22.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">GT Noise</th>
+<th style="text-align: center">Extracted Noise</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center">
+<img src="../images/denoispeech/gt2.png" width="100%"/>
+</td>
+<td style="text-align: center">
+<img src="../images/denoispeech/pred2.png" width="100%"/>
+</td>
+</tr>
+</tbody></table>
+<h2 id="smos-similarity-mos">SMOS (Similarity MOS)</h2>
+<p>We randomly selected 12 utterances (which are all pronounced by a speaker) from the test set, and distributed them to 10 participants (native speakers). Each participant received the same 12 utterances with different orders and give the SMOS score (compared with Clean GT).
+<br/>
+<img src="../images/denoispeech/smos.png" width="50%"/></p>
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="/unsuper/">Almost Unsupervised Text to Speech and Automatic Speech Recognition</a><br>
+<a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a><br>
+<a href="/seminas/">Semi-Supervised Neural Architecture Search</a><br>
+<a href="/multispeech/">MultiSpeech: Multi-Speaker Text to Speech with Transformer</a><br>
+<a href="/lrspeech/">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</a><br>
+<a href="/deepsinger/">DeepSinger: Singing Voice Synthesis with Data Mined From the Web</a><br>
+<a href="/uwspeech/">UWSpeech: Speech to Speech Translation for Unwritten Languages</a><br></p>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

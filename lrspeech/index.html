@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</h1>
+			
+			<section itemprop="entry-text">
+				<br>
+<img src="../audio/lrspeech/fig/2.png"  width="90%" height="40px"  alt="LRSpeech_pipline" />
+<br>
+<img src="../audio/lrspeech/fig/3.png"  width="90%" height="40px" alt="LRSpeech_model" />
+<p>ArXiv: <a href="https://arxiv.org/pdf/2008.03687.pdf">arXiv:2008.03687</a></p>
+<!-- Reddit Discussions: [Click me](https://www.reddit.com/r/MachineLearning/comments/brzwi5/r_fastspeech_fast_robust_and_controllable_text_to/) -->
+<h2 id="authors">Authors</h2>
+<ul>
+<li>Jin Xu (Tsinghua University) <a href="mailto:j-xu18@mails.tsinghua.edu.cn">j-xu18@mails.tsinghua.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Yi Ren (Zhejiang University) <a href="mailto:rayeren@zju.edu.cn">rayeren@zju.edu.cn</a></li>
+<li>Tao Qin (Microsoft Research) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Jian Li (Tsinghua University) <a href="mailto:lijian83@mail.tsinghua.edu.cn">lijian83@mail.tsinghua.edu.cn</a></li>
+<li>Sheng Zhao (Microsoft STC Asia) <a href="mailto:Sheng.Zhao@microsoft.com">Sheng.Zhao@microsoft.com</a></li>
+<li>Tie-Yan Liu (Microsoft Research) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<h2 id="abstract">Abstract</h2>
+<p>Speech synthesis (text to speech, TTS) and recognition (automatic speech recognition, ASR) are important speech tasks, and require a large amount of text and speech pairs for model training. However, there are more than 6,000 languages in the world and most languages are lack of speech training data, which poses significant challenges when building TTS and ASR systems for extremely low-resource languages. In this paper, we develop LRSpeech, a TTS and ASR system under the extremely low-resource setting, which can support rare languages with low data cost. LRSpeech consists of three key techniques: 1) pre-training on rich-resource languages and fine-tuning on low-resource languages; 2) dual transformation between TTS and ASR to iteratively boost the accuracy of each other; 3) knowledge distillation to customize the TTS model on a high-quality target-speaker voice and improve the ASR model on multiple voices. We conduct experiments on an experimental language (English) and a truly low-resource language (Lithuanian) to verify the effectiveness of LRSpeech. Experimental results show that LRSpeech 1) achieves high quality for TTS in terms of both intelligibility (more than $98%$ intelligibility rate) and naturalness (above 3.5 mean opinion score (MOS)) of the synthesized speech, which satisfy the requirements for industrial deployment, 2) achieves promising recognition accuracy for ASR, and 3) last but not least, uses extremely low-resource training data. We also conduct comprehensive analyses on LRSpeech with different amounts of data resources, and provide valuable insights and guidances for industrial deployment. We are currently deploying LRSpeech into a commercialized cloud speech service to support TTS on more rare languages.</p>
+<h2 id="training-audio-samples">Training Audio Samples</h2>
+<h3 id="english">English</h3>
+<!-- #### Target Speaker  -->
+<p><b>SPEECH 1</b> : *Printing in the only sense with which we are at present concerned differs from most if not from all the arts and crafts represented in the exhibition.*<br>
+<b>SPEECH 2</b> : <em>Anne walked in silence phil chattered of many things suddenly she said.</em> <br>
+<b>SPEECH 3</b> : <em>And this sir gringamores arms were all black and that to him longeth</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">High-Quality Speaker</th>
+<th style="text-align: center">Low-Quality Speaker 1</th>
+<th style="text-align: center">Low-Quality Speaker 2</th>
+<!-- <th style="text-align: center">GT (Parallel WaveGAN)</th> -->
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/train_samples/english/00001.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/train_samples/english/112-123216-0023.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/train_samples/english/1536-137608-0021.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<!-- <td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/train_samples/english/00001_wavegan.wav" autoplay/>Your browser does not support the audio element.</audio></td> -->
+</tr>
+</tbody></table>
+<h3 id="lithuanian">Lithuanian</h3>
+<p><b>SPEECH 1</b> : *Bengalinis tigras katinių šeimos plėšrūnas.*<br>
+<b>SPEECH 2</b> : <em>Taip gimė Prancūzijos restoranų tradicija.</em> <br>
+<b>SPEECH 3</b> : <em>Kai kurios linijos yra seniai tapusios neatskiriama šios vietos kraštovaizdžio ir topografijos dalimi.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">High-Quality Speaker</th>
+<th style="text-align: center">Low-Quality Speaker 1</th>
+<th style="text-align: center">Low-Quality Speaker 2</th>
+<!-- <th style="text-align: center">GT (Parallel WaveGAN)</th> -->
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/train_samples/lithuania/raw_0.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/train_samples/lithuania/S200Vl_039_17.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/train_samples/lithuania/S563Vg_004_04.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<!-- <td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/train_samples/lithuania/0_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td> -->
+</tr>
+</tbody></table>
+<h2 id="tts-audio-samples-in-the-paper">TTS Audio Samples in the Paper</h2>
+<h3 id="table-3---the-accuracy-comparison-for-tts-and-asr">Table 3  : the Accuracy Comparison for TTS and ASR</h3>
+<p><em>The paper&rsquo;s author is alistair evans of monash university in australia.</em> <br>
+(Figure 3 in the paper)</p>
+<table><thead>
+<tr>
+<th style="text-align: center">Baseline 1</th>
+<th style="text-align: center">Baseline 2</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline1/[48]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline2/[48]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">+ PF</th>
+<th style="text-align: center">+ PF + DT</th>
+<th style="text-align: center">+ PF + DT + KD</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_pretrain/[48]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_BT/[48]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_KD/[48]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<!-- *This incensed Paul campaign official blogger Jack Hunter, so he produced a video to explain to doubters how 29 is a bigger number than 26.* <br>
+
+<table><thead>
+<tr>
+
+<th style="text-align: center">Baseline 1</th>
+<th style="text-align: center">Baseline 2</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline1/[184]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline2/[184]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">+ PF</th>
+<th style="text-align: center">+ PF + DT</th>
+<th style="text-align: center">+ PF + DT + KD</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_pretrain/[184]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_BT/[184]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_KD/[184]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table> -->
+<p><em>Michigan Theatre tabs Steve Tucker as new executive director.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Baseline 1</th>
+<th style="text-align: center">Baseline 2</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline1/[3]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline2/[3]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">+ PF</th>
+<th style="text-align: center">+ PF + DT</th>
+<th style="text-align: center">+ PF + DT + KD</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_pretrain/[3]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_BT/[3]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_KD/[3]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Tucker taught and coached baseball for Vandercook Lake schools from the late nineteen seventys until retiring in 2008.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Baseline 1</th>
+<th style="text-align: center">Baseline 2</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline1/[188]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline2/[188]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">+ PF</th>
+<th style="text-align: center">+ PF + DT</th>
+<th style="text-align: center">+ PF + DT + KD</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_pretrain/[188]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_BT/[188]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_KD/[188]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>The Commonwealth Fund recently released its first ever Scorecard on Local Health System Performance.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Baseline 1</th>
+<th style="text-align: center">Baseline 2</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline1/[139]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/baseline2/[139]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">+ PF</th>
+<th style="text-align: center">+ PF + DT</th>
+<th style="text-align: center">+ PF + DT + KD</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_pretrain/[139]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_BT/[139]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/ablation/add_KD/[139]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<!-- ### Table 5 : High-quality samples (without KD)
+
+*I wanted my own trolley and Henrietta Pussycat and Daniel the Lion.* 
+
+<table><thead>
+<tr>
+
+<th style="text-align: center">20</th>
+<th style="text-align: center">50</th>
+<th style="text-align: center">100</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/high_quality/20/00007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/high_quality/50/00007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/high_quality/100/00007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table> -->
+<h3 id="fig-4-a--low-quality-paireds-samples-without-kd">Fig 4 (a) : Low-Quality Paireds Samples (Without KD)</h3>
+<p><b>(1) Experimental Results</b><br>
+<img src="../audio/lrspeech/fig/exp/2_low.png"  width="40%" height="20px"  alt="LRSpeech_pipline" />
+<br>
+<b>(2) Audio Samples</b>
+<br></p>
+<p><em>The soap opera that begat Java deserved to be written as a novel.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">200</th>
+<th style="text-align: center">500</th>
+<th style="text-align: center">1000</th>
+<th style="text-align: center">5000</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/low_quality_pair/200/00012.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/low_quality_pair/500/00012.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/low_quality_pair/1000/00012.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/low_quality_pair/5000/00012.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="fig-4-b--low-quality-unpaireds-samples-without-kd">Fig 4 (b) : Low-Quality Unpaireds Samples (Without KD)</h3>
+<p><b>(1) Experimental Results</b><br>
+<img src="../audio/lrspeech/fig/exp/3_low.png"  width="40%" height="20px"  alt="LRSpeech_pipline" />
+<br></p>
+<p><b>(2) Audio Samples</b>
+<br>
+<em>Their pure lines appeal to people who embrace minimalism in fashion, design, and architecture.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">PF</th>
+<th style="text-align: center">+ Seen</th>
+<th style="text-align: center">+ Seen + Unseen</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/low_quality_unpair/baseline2/00018.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/low_quality_unpair/seen/00018.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/low_quality_unpair/unseen/00018.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="fig-4-c--knowledge-distillation-for-tts">Fig 4 (c) : Knowledge Distillation for TTS</h3>
+<p><b>(1) Experimental Results</b><br>
+<img src="../audio/lrspeech/fig/exp/4_tts.png"  width="40%" height="20px"  alt="LRSpeech_pipline" />
+<br>
+<b>(2) Audio Samples</b>
+<br>
+<em>I remembered that school, so I went back through my book keepings from college and sure enough, I still had the program and score book from that game.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">1000</th>
+<th style="text-align: center">3000</th>
+<th style="text-align: center">5000</th>
+<th style="text-align: center">20000</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/distill/1000/[110]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/distill/3000/[110]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/distill/5000/[110]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/distill/20000/[110]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="table-5--synthesized-lithuanian-speech-of-lrspeech">Table 5 : Synthesized Lithuanian Speech of LRSpeech</h3>
+<p><b>SPEECH 1</b> : *Sveria iki dešimties kilogramų.*<br>
+<b>SPEECH 2</b> : <em>Taip pat medžioja vandens paukščius ir vabzdžius varles net kiškių jauniklius.</em> <br>
+<b>SPEECH 3</b> : <em>Po vandeniu neįkvėpusi gali nuplaukti keturis šimtus metrų kartais išvysto net iki keturiolikos kilometru per valandą greitį.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">SPEECH 1</th>
+<th style="text-align: center">SPEECH 2</th>
+<th style="text-align: center">SPEECH 3</th>
+<!-- <th style="text-align: center">GT (Parallel WaveGAN)</th> -->
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/lithuanian/[3]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/lithuanian/[9]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/lithuanian/[2]_gen.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h2 id="part-of-mos-and-ir-test-report">Part of MOS and IR Test Report</h2>
+<p><a href="../audio/lrspeech/report/MOS.xlsx" download>MOS_en_US.xlsx</a>
+<br>
+<a href="../audio/lrspeech/report/IR.xlsx" download>IR_en_US.xlsx</a></p>
+<h2 id="test-sentences-for-tts">Test sentences for TTS</h2>
+<p><a href="../audio/lrspeech/report/MOS_test.txt" download>MOS_en_US.txt</a>
+<br>
+<a href="../audio/lrspeech/report/IR_test.txt" download>IR_en_US.txt</a></p>
+<h2 id="other-experiments">Other Experiments</h2>
+<h3 id="varing-high-quality-target-speaker-pairded-data-without-kd">Varing High-Quality Target Speaker Pairded Data (Without KD)</h3>
+<p><b>(1) Experimental Results</b><br>
+<img src="../audio/lrspeech/fig/exp/1_high.png"  width="40%" height="20px"  alt="LRSpeech_pipline" />
+<br></p>
+<p><b>(2) Audio Samples</b>
+<br>
+<em>I wanted my own trolley and Henrietta Pussycat and Daniel the Lion.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">20</th>
+<th style="text-align: center">50</th>
+<th style="text-align: center">100</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/high_quality/20/00007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/high_quality/50/00007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/lrspeech/high_quality/100/00007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<!-- ## Code
+
+Code will be released after the paper is accepted by the conference. -->
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="/unsuper/">Almost Unsupervised Text to Speech and Automatic Speech Recognition</a><br>
+<a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a><br>
+<a href="/seminas/">Semi-Supervised Neural Architecture Search</a><br>
+<a href="/multispeech/">MultiSpeech: Multi-Speaker Text to Speech with Transformer</a><br>
+<a href="/deepsinger/">DeepSinger: Singing Voice Synthesis with Data Mined From the Web</a><br>
+<a href="/fastspeech2/">FastSpeech 2: Fast and High-Quality End-to-End Text-to-Speech</a><br>
+<a href="/uwspeech/">UWSpeech: Speech to Speech Translation for Unwritten Languages</a><br>
+<a href="/denoispeech/">Denoising Text to Speech with Frame-Level Noise Modeling</a><br></p>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

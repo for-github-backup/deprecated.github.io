@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>DeepSinger: Singing Voice Synthesis with Data Mined From the Web - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">DeepSinger: Singing Voice Synthesis with Data Mined From the Web</h1>
+			
+			<section itemprop="entry-text">
+				<h2 id="authors">Authors</h2>
+<ul>
+<li>Yi Ren* (Zhejiang University) <a href="mailto:rayeren@zju.edu.cn">rayeren@zju.edu.cn</a></li>
+<li>Xu Tan* (Microsoft Research Asia) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Tao Qin (Microsoft Research Asia) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Jian Luan (Microsoft STCA) <a href="mailto:jianluan@microsoft.com">jianluan@microsoft.com</a></li>
+<li>Zhou Zhao (Zhejiang University) <a href="mailto:zhaozhou@zju.edu.cn">zhaozhou@zju.edu.cn</a></li>
+<li>Tie-Yan Liu (Microsoft Research Asia) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<p><small>* Equal contribution.</small></p>
+<h2 id="chinese">Chinese</h2>
+<table><thead>
+<tr>
+<th style="text-align: center"> / </th>
+<th style="text-align: center">Sample 1</th>
+<th style="text-align: center">Sample 2</th>
+<th style="text-align: center">Sample 3</th>
+</tr></thead><tbody>
+<tr>
+<td>Data crawling</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/zh/xx_0K2P2e1dc_5.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: 爱从不容许人三心两意<br>Phonemes: PAD ai c ong b u r ong x v r en s an x in l iang PAD i</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/zh/xx_0K2P2e1dc_15.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: 遮住你的眼睛<br>Phonemes: zh e zh u n i d e PAD ian j ing</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/zh/xx_XIKddfe0_37.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: 好久好久<br>Phonemes: h ao j iou h ao j iou</td>
+</tr>
+<tr>
+<td>Singing and accompaniment separation</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/zh/0K2P2e1dc_5_raw.wav" autoplay/>Your browser does not support the audio element.</audio> </td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/zh/0K2P2e1dc_15_raw.wav" autoplay/>Your browser does not support the audio element.</audio>  </td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/zh/XIKddfe0_37_raw.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+<tr>
+<td>Lyrics-to-singing alignment</td>
+<td>Attention map <img src='../audio/deepsinger/zh/0K2P2e1dc_5_attn_0.8244.png'/><br> Lyrics-to-singing alignment <img src='../audio/deepsinger/zh/0K2P2e1dc_5_splits.png'/> </td>
+<td>Attention map <img src='../audio/deepsinger/zh/0K2P2e1dc_15_attn_0.8329.png'/><br> Lyrics-to-singing alignment <img src='../audio/deepsinger/zh/0K2P2e1dc_15_splits.png'/></td>
+<td>Attention map <img src='../audio/deepsinger/zh/XIKddfe0_37_attn_0.3764.png'/></td>
+</tr>
+<tr>
+<td>Data filtration</td>
+<td>Keep (Splitting Reward: $\mathcal{O} = 0.8244 $)  </td>
+<td>Keep (Splitting Reward: $\mathcal{O} = 0.8359 $)  </td>
+<td>Discard (Splitting Reward: $\mathcal{O} = 0.3764 $)</td>
+</tr>
+<tr>
+<td>Singing modeling</td>
+<td>
+$\textit{GT (Linear+GL)}$   <br>  <audio controls="controls" ><source src="../audio/deepsinger/zh/0K2P2e1dc_5_gt.wav" autoplay/>Your browser does not support the audio element.</audio> <br>  
+$\textit{DeepSinger}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/zh/0K2P2e1dc_5.wav" autoplay/>Your browser does not support the audio element.</audio> <br>  
+Pitch Plot
+<img src='../audio/deepsinger/zh/0K2P2e1dc_5_pitch.png'/>
+</td>
+<td>
+$\textit{GT (Linear+GL)}$   <br>  <audio controls="controls" ><source src="../audio/deepsinger/zh/0K2P2e1dc_15_gt.wav" autoplay/>Your browser does not support the audio element.</audio> <br> 
+ $\textit{DeepSinger}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/zh/0K2P2e1dc_15.wav" autoplay/>Your browser does not support the audio element.</audio> <br>
+ Pitch Plot
+ <img src='../audio/deepsinger/zh/0K2P2e1dc_15_pitch.png'/>
+</td>
+<td>
+<p>/</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+P.S. 1) $\textit{GT}$, the ground-truth audio; 2) $\textit{GT (Linear+GL)}$, where we synthesize voices based on the ground-truth linear-spectrograms using Griffin-Lim; 3) $\textit{DeepSinger}$, where the audio is generated by DeepSinger.
+</p>
+<!-- 
+## English
+<table><thead>
+<tr>
+<th style="text-align: center"> / </th>
+<th style="text-align: center">Sample 1</th>
+<th style="text-align: center">Sample 2</th>
+<th style="text-align: center">Sample 3</th>
+</tr></thead><tbody>
+<tr>
+<td>Data crawling</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/en/xx_8GfscTff70f_1.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: But sometimes I feel so<br>Phonemes: b ʌ t s ʌ m t aɪ m z aɪ f iː l s oʊ</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/en/xx_8GfscTff70f_39.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: In my dreams I'm not so far away from home<br>Phonemes: ɪ n m aɪ d ɹ iː m z aɪ m n ɑː t s oʊ f ɑː ɹ ɐ w eɪ f ɹ ʌ m h oʊ m</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/en/xx_8GfscTff70f_37.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: All my life all the time so far away from home<br>Phonemes: ɔː l m aɪ l aɪ f ɔː l ð ə t aɪ m s oʊ f ɑː ɹ ɐ w eɪ f ɹ ʌ m h oʊ m</td>
+</tr>
+
+<tr>
+<td>Singing and accompaniment separation</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/en/8GfscTff70f_1_raw.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/en/8GfscTff70f_39_raw.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/en/8GfscTff70f_37_raw.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+
+
+<tr>
+<td>Lyrics-to-singing alignment</td>
+<td>Attention map <img src='../audio/deepsinger/en/8GfscTff70f_1_attn_0.7427.png'/><br> Lyrics-to-singing alignment <img src='../audio/deepsinger/en/8GfscTff70f_1_splits.png'/> </td>
+<td>Attention map <img src='../audio/deepsinger/en/8GfscTff70f_39_attn_0.7306.png'/><br> Lyrics-to-singing alignment <img src='../audio/deepsinger/en/8GfscTff70f_39_splits.png'/></td>
+<td>Attention map <img src='../audio/deepsinger/en/8GfscTff70f_37_attn_0.4725.png'/></td>
+</tr>
+
+<tr>
+<td>Data filtration</td>
+<td>Keep (Splitting Reward: $\mathcal{O} = 0.7427 $) </td>
+<td>Keep (Splitting Reward: $\mathcal{O} = 0.7306 $)  </td>
+<td>Discard (Splitting Reward: $\mathcal{O} = 0.4725 $)</td>
+</tr>
+
+<tr>
+<td>Singing modeling</td>
+
+<td>
+$\textit{GT (Linear+GL)}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/en/8GfscTff70f_1_gt.wav" autoplay/>Your browser does not support the audio element.</audio> <br>  
+$\textit{DeepSinger}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/en/8GfscTff70f_1.wav" autoplay/>Your browser does not support the audio element.</audio> <br>  
+Pitch Plot
+<img src='../audio/deepsinger/en/8GfscTff70f_1_pitch.png'/>
+</td>
+
+<td>
+$\textit{GT (Linear+GL)}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/en/8GfscTff70f_39_gt.wav" autoplay/>Your browser does not support the audio element.</audio> <br> 
+ $\textit{DeepSinger}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/en/8GfscTff70f_39.wav" autoplay/>Your browser does not support the audio element.</audio> <br>
+ Pitch Plot
+ <img src='../audio/deepsinger/en/8GfscTff70f_39_pitch.png'/>
+</td>
+
+<td>
+
+/
+
+</td>
+</tr>
+
+</tbody></table>
+-->
+<h2 id="cantonese">Cantonese</h2>
+<table><thead>
+<tr>
+<th style="text-align: center"> / </th>
+<th style="text-align: center">Sample 1</th>
+<th style="text-align: center">Sample 2</th>
+<th style="text-align: center">Sample 3</th>
+</tr></thead><tbody>
+<tr>
+<td>Data crawling</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/hk/xx_bClau824b25f_3.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: 我已经不懂心痛<br>Phonemes: ŋ o5 j i5 ɡ inɡ1 b a1 t d unɡ2 s a1 m t unɡɜ</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/hk/xx_bClau824b25f_9.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: 或你会了解在孤单中的心痛<br>Phonemes: w aa6 k n ei5 w ui6 l iu5 ɡ aai2 z oi6 ɡ u1 d aa1 n z unɡ1 d i1 k s a1 m t unɡɜ</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/hk/xx_bBfZ2b39bf_32.wav" autoplay/>Your browser does not support the audio element.</audio><br>Lyrics: 唔知点解 我成日都好担心<br>Phonemes: nɡ4 z i1 d i2 m ɡ aai2 ŋ o5 s inɡ4 j a6 t d ou1 h ou2 d aa1 m s a1 m</td>
+</tr>
+<tr>
+<td>Singing and accompaniment separation</td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/hk/bClau824b25f_3_raw.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/hk/bClau824b25f_9_raw.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/hk/bBfZ2b39bf_32_raw.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+<tr>
+<td>Lyrics-to-singing alignment</td>
+<td>Attention map <img src='../audio/deepsinger/hk/bClau824b25f_3_attn_0.8105.png'/> <br> Lyrics-to-singing alignment <img src='../audio/deepsinger/hk/bClau824b25f_3_splits.png'/></td>
+<td>Attention map <img src='../audio/deepsinger/hk/bClau824b25f_9_attn_0.7372.png'/><br> Lyrics-to-singing alignment <img src='../audio/deepsinger/hk/bClau824b25f_9_splits.png'/></td>
+<td>Attention map <img src='../audio/deepsinger/hk/bBfZ2b39bf_32_attn_0.3601.png'/></td>
+</tr>
+<tr>
+<td>Data filtration </td>
+<td>Keep (Splitting Reward: $\mathcal{O} = 0.8105 $) </td>
+<td>Keep (Splitting Reward: $\mathcal{O} = 0.7372 $)  </td>
+<td>Discard (Splitting Reward: $\mathcal{O} = 0.3601 $)</td>
+</tr>
+<tr>
+<td>Singing modeling</td>
+<td>
+$\textit{GT (Linear+GL)}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/hk/bClau824b25f_3_gt.wav" autoplay/>Your browser does not support the audio element.</audio> <br>  
+$\textit{DeepSinger}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/hk/bClau824b25f_3.wav" autoplay/>Your browser does not support the audio element.</audio> <br>  
+Pitch Plot
+<img src='../audio/deepsinger/hk/bClau824b25f_3_pitch.png'/>
+</td>
+<td>
+$\textit{GT (Linear+GL)}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/hk/bClau824b25f_9_gt.wav" autoplay/>Your browser does not support the audio element.</audio> <br> 
+ $\textit{DeepSinger}$  <br>  <audio controls="controls" ><source src="../audio/deepsinger/hk/bClau824b25f_9.wav" autoplay/>Your browser does not support the audio element.</audio> <br>
+ Pitch Plot
+ <img src='../audio/deepsinger/hk/bClau824b25f_9_pitch.png'/>
+</td>
+<td>
+<p>/</p>
+</td>
+</tr>
+</tbody></table>
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="/unsuper/">Almost Unsupervised Text to Speech and Automatic Speech Recognition</a><br>
+<a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a><br>
+<a href="/multispeech/">MultiSpeech: Multi-Speaker Text to Speech with Transformer</a><br>
+<a href="/seminas/">Semi-Supervised Neural Architecture Search</a><br>
+<a href="/lrspeech/">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</a><br>
+<a href="/fastspeech2/">FastSpeech 2: Fast and High-Quality End-to-End Text-to-Speech</a><br>
+<a href="/uwspeech/">UWSpeech: Speech to Speech Translation for Unwritten Languages</a><br>
+<a href="/denoispeech/">Denoising Text to Speech with Frame-Level Noise Modeling</a><br></p>
+<!-- ### Good Alignment Example
+
+<p>
+Splitting Reward: $\mathcal{O} = 0.8024 $  
+</p>
+
+<img src='../audio/deepsinger/good_align.png'/>
+<audio controls="controls" ><source src="../audio/deepsinger/good_align.wav" autoplay/>Your browser does not support the audio element.</audio>
+
+### Bad Alignment Example
+
+<p>
+Splitting Reward: $\mathcal{O} = 0.3196 $  
+</p>
+
+<img src='../audio/deepsinger/bad_align.png'/>
+<audio controls="controls" ><source src="../audio/deepsinger/bad_align.wav" autoplay/>Your browser does not support the audio element.</audio>
+
+
+## Audio Samples
+
+<!-- ### Chinese  -->
+<!-- 
+*爱从不容许人三心两意*
+
+<table><thead>
+<tr>
+<th style="text-align: center">Raw Audio</th>
+<th style="text-align: center">Vocal (after seperation)</th>
+<th style="text-align: center">GT (Linear+GL)</th>
+<th style="text-align: center">DeepSinger</th>
+</tr></thead><tbody>
+<tr>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/raw/0.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/gt/0.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/gt_gl/0.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/ds/0.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+
+
+*遇见浑然天成的交集*
+
+<table><thead>
+<tr>
+<th style="text-align: center">Raw Audio</th>
+<th style="text-align: center">Vocal (after seperation)</th>
+<th style="text-align: center">GT (Linear+GL)</th>
+<th style="text-align: center">DeepSinger</th>
+</tr></thead><tbody>
+<tr>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/raw/1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/gt/1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/gt_gl/1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/ds/1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+
+
+
+*遮住你的眼睛*
+
+<table><thead>
+<tr>
+<th style="text-align: center">Raw Audio</th>
+<th style="text-align: center">Vocal (after seperation)</th>
+<th style="text-align: center">GT (Linear+GL)</th>
+<th style="text-align: center">DeepSinger</th>
+</tr></thead><tbody>
+<tr>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/raw/2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/gt/2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/gt_gl/2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td><audio controls="controls" ><source src="../audio/deepsinger/audio/ds/2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+
+<br> --> 
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

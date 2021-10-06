@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MusicGeneration on Speech Research</title>
+    <link>https://speechresearch.github.io/tags/musicgeneration/</link>
+    <description>Recent content in MusicGeneration on Speech Research</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 21 Sep 2021 12:30:00 +0901</lastBuildDate>
+    
+	<atom:link href="https://speechresearch.github.io/tags/musicgeneration/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TeleMelody: Lyric-to-Melody Generation with a Template-Based Two-Stage Method</title>
+      <link>https://speechresearch.github.io/telemelody/</link>
+      <pubDate>Tue, 21 Sep 2021 12:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/telemelody/</guid>
+      <description>ArXiv: arXiv:2109.09617
+Authors  Zeqian Ju (University of Science and Technology of China) juzeqian@mail.ustc.edu.cn Peiling Lu (Microsoft Research Asia) peil@microsoft.com Xu Tan^ (Microsoft Research Asia ) xuta@microsoft.com Rui Wang (Microsoft Research Asia ) ruiwa@microsoft.com Chen Zhang (Zhejiang University ) zc99@zju.edu.cn Songruoyao Wu (Zhejiang University ) 22021296@zju.edu.cn Kejun Zhang (Zhejiang University ) zhangkejun@zju.edu.cn Xiangyang Li (University of Science and Technology of China ) xiangyangli@ustc.edu.cn Tao Qin (Microsoft Research Asia ) taoqin@microsoft.</description>
+    </item>
+    
+    <item>
+      <title>SongMASS: Automatic Song Writing with Pre-training and Alignment Constraint</title>
+      <link>https://speechresearch.github.io/songmass/</link>
+      <pubDate>Mon, 14 Dec 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/songmass/</guid>
+      <description>ArXiv: arXiv:2012.05168
+Authors  Zhonghao Sheng* (Peking University) zhonghao.sheng@pku.edu.cn Kaitao Song* (Nanjing University of Science and Technology) kt.song@njust.edu.cn Xu Tan^ (Microsoft Research) xuta@microsoft.com Yi Ren (Zhejiang University) rayeren@zju.edu.cn Wei Ye (Peking University) wye@pku.edu.cn Shikun Zhang (Peking University) zhangsk@pku.edu.cn Tao Qin (Microsoft Research) taoqin@microsoft.com  * Equal contribution. ^ Corresponding author.
+Abstract Automatic song writing aims to compose a song (lyric and/or melody) by machine, which is an interesting topic in both academia and industry.</description>
+    </item>
+    
+    <item>
+      <title>PopMAG: Pop Music Accompaniment Generation</title>
+      <link>https://speechresearch.github.io/popmag/</link>
+      <pubDate>Sat, 01 Aug 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/popmag/</guid>
+      <description>Arxiv: https://arxiv.org/abs/2008.07703
+Audio   / Melody (Input) PopMAG Ground-Truth   Sample 1 Your browser does not support the audio element. Your browser does not support the audio element. Your browser does not support the audio element.   Sample 2 Your browser does not support the audio element. Your browser does not support the audio element. Your browser does not support the audio element.   Sample 3 Your browser does not support the audio element.</description>
+    </item>
+    
+  </channel>
+</rss>

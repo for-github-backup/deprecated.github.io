@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>UWSpeech: Speech to Speech Translation for Unwritten Languages - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">UWSpeech: Speech to Speech Translation for Unwritten Languages</h1>
+			
+			<section itemprop="entry-text">
+				<br>
+<p>ArXiv: <a href="https://arxiv.org/abs/2006.07926">arXiv:2006.07926</a>
+(Accepted by AAAI2021)</p>
+<h2 id="authors">Authors</h2>
+<ul>
+<li>Chen Zhang (Zhejiang University) <a href="mailto:zc99@zju.edu.cn">zc99@zju.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Yi Ren (Zhejiang University) <a href="mailto:rayeren@zju.edu.cn">rayeren@zju.edu.cn</a></li>
+<li>Tao Qin (Microsoft Research) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Kejun Zhang (Zhejiang University) <a href="mailto:zhangkejun@zju.edu.cn">zhangkejun@zju.edu.cn</a></li>
+<li>Tie-Yan Liu (Microsoft Research) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<h2 id="abstract">Abstract</h2>
+<p>Existing speech to speech translation systems heavily rely on the text of target language: they usually translate source language either to target text and then synthesize target speech from text, or directly to target speech with target text for auxiliary training. However, those methods cannot be applied to unwritten target languages, which have no written text or phoneme available. In this paper, we develop a translation system for unwritten languages, named as UWSpeech, which converts target unwritten speech into discrete tokens with a converter, and then translates source-language speech into target discrete tokens with a translator, and finally synthesizes target speech from target discrete tokens with an inverter. We propose a method called XL-VAE, which enhances vector quantized variational autoencoder (VQ-VAE) with cross-lingual (XL) speech recognition, to train the converter and inverter of UWSpeech jointly. Experiments on Fisher Spanish-English conversation translation dataset show that UWSpeech outperforms direct translation and VQ-VAE baseline by about 16 and 10 BLEU points respectively, which demonstrate the advantages and potentials of UWSpeech.</p>
+<h2 id="audio-samples">Audio Samples</h2>
+<p>All of the audio samples use Griffin-Lim as vocoder.
+Translate Spanish to English.</p>
+<h3 id="case-1">Case 1</h3>
+<p><b>Source(Spanish):</b> <i>Yo no entendí lo que ella dijo.</i></p>
+<p><b>Target(English):</b> <i>I didn&rsquo;t understand what she said.</i></p>
+<p><audio controls="controls" ><source src="../audio/uwspeech/[case1][Target]i_didnt_understand_what_she_said.wav" autoplay/>Your browser does not support the audio element.</audio></p>
+<table><thead>
+<tr>
+    <td style="text-align: center"><b>Direct Translation:</b> <i>I don't know.</i></td>
+    <td style="text-align: center"><b>VQ-VAE:</b> <i>I didn't understand.</i></td>
+    <td style="text-align: center"><b>UWSpeech:</b> <i>I didn't understand what she say.</i></td>
+</tr>
+<tr>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case1][Direct_Translation]i_dont_know.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case1][VQ-VAE]i_didnt_understand.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case1][UWSpeech]i_didnt_understand_what_she_say.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="case-2">Case 2</h3>
+<p><b>Source(Spanish):</b> <i>Qué tal, ¿de dónde eres?</i></p>
+<p><b>Target(English):</b> <i>How&rsquo;s it going, where are you from?</i></p>
+<p><audio controls="controls" ><source src="../audio/uwspeech/[case2][Target]hows_it_going_where_are_you_from.wav" autoplay/>Your browser does not support the audio element.</audio></p>
+<table><thead>
+<tr>
+    <td style="text-align: center"><b>Direct Translation:</b> <i>Had a price.</i></td>
+    <td style="text-align: center"><b>VQ-VAE:</b> <i>Like are you there are you from?</i></td>
+    <td style="text-align: center"><b>UWSpeech:</b> <i>How are you, where are you from?</i></td>
+</tr>
+<tr>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case2][Direct_Translation]had_a_price.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case2][VQ-VAE]like_are_you_there_are_you_from.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case2][UWSpeech]how_are_you_where_are_you_from.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="case-3">Case 3</h3>
+<p><b>Source(Spanish):</b> <i>Yo soy puertoriqueña.</i></p>
+<p><b>Target(English):</b> <i>I am Puerto Rican.</i></p>
+<p><audio controls="controls" ><source src="../audio/uwspeech/[case3][Target]i_am_puerto_rican.wav" autoplay/>Your browser does not support the audio element.</audio></p>
+<table><thead>
+<tr>
+    <td style="text-align: center"><b>Direct Translation:</b> <i>Ah.</i></td>
+    <td style="text-align: center"><b>VQ-VAE:</b> <i>I'm from.</i></td>
+    <td style="text-align: center"><b>UWSpeech:</b> <i>I'm from Puerto Rico.</i></td>
+</tr>
+<tr>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case3][Direct_Translation]ah.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case3][VQ-VAE]i_am_from.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case3][UWSpeech]i_am_from_puerto_rico.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="case-4">Case 4</h3>
+<p><b>Source(Spanish):</b> <i>Halo, buenas noches.</i></p>
+<p><b>Target(English):</b> <i>Hello good evening.</i></p>
+<p><audio controls="controls" ><source src="../audio/uwspeech/[case4][Target]hello_good_evening.wav" autoplay/>Your browser does not support the audio element.</audio></p>
+<table><thead>
+<tr>
+    <td style="text-align: center"><b>Direct Translation:</b> <i>And a.</i></td>
+    <td style="text-align: center"><b>VQ-VAE:</b> <i>Hello video.</i></td>
+    <td style="text-align: center"><b>UWSpeech:</b> <i>Hello good evening.</i></td>
+</tr>
+<tr>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case4][Direct_Translation]and_a.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case4][VQ-VAE]hello_video.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+    <td style="text-align: center"><audio controls="controls" ><source src="../audio/uwspeech/[case4][UWSpeech]hello_good_evening.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="/unsuper/">Almost Unsupervised Text to Speech and Automatic Speech Recognition</a><br>
+<a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a><br>
+<a href="/seminas/">Semi-Supervised Neural Architecture Search</a><br>
+<a href="/multispeech/">MultiSpeech: Multi-Speaker Text to Speech with Transformer</a><br>
+<a href="/lrspeech/">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</a><br>
+<a href="/deepsinger/">DeepSinger: Singing Voice Synthesis with Data Mined From the Web</a><br>
+<a href="/denoispeech/">Denoising Text to Speech with Frame-Level Noise Modeling</a><br></p>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

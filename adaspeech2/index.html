@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>AdaSpeech 2: Adaptive Text to Speech with Untranscribed Data - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">AdaSpeech 2: Adaptive Text to Speech with Untranscribed Data</h1>
+			
+			<section itemprop="entry-text">
+				<h2 id="author">Author</h2>
+<ul>
+<li>Yuzi Yan (EE, Tsinghua University) <a href="mailto:yan-yz17@mails.tsinghua.edu.cn">yan-yz17@mails.tsinghua.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research Asia) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Bohan Li (Microsoft Azure Speech) <a href="mailto:bohan.li@microsoft.com">bohan.li@microsoft.com</a></li>
+<li>Tao Qin (Microsoft Research Asia) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Sheng Zhao (Microsoft Azure Speech) <a href="mailto:szhao@microsoft.com">szhao@microsoft.com</a></li>
+<li>Yuan Shen (EE, Tsinghua University) <a href="mailto:shenyuan_ee@tsinghua.edu.cn">shenyuan_ee@tsinghua.edu.cn</a></li>
+<li>Tie-Yan Liu (Microsoft Research Asia) <a href="mailto:tie-yan.liu@microsoft.com">tie-yan.liu@microsoft.com</a></li>
+</ul>
+<h2 id="audio-samples">Audio Samples</h2>
+<p>All of the audio samples use MelGAN as vocoder.</p>
+<h3 id="audio-quality">Audio Quality</h3>
+<p><em>When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.</em></p>
+<h4 id="vctk-female">VCTK Female</h4>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT Mel+Vocoder</th>
+<th style="text-align: center">Joint-training</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/recording/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/gt/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/nautilus/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">PPG-based</th>
+<th style="text-align: center">AdaSpeech</th>
+<th style="text-align: center">Ours(AdaSpeech 2)</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/ppgs/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/fs2/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/untrans/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h4 id="vctk-male">VCTK Male</h4>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT Mel+Vocoder</th>
+<th style="text-align: center">Joint-training</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/recording/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/gt/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/nautilus/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">PPG-based</th>
+<th style="text-align: center">AdaSpeech</th>
+<th style="text-align: center">Ours(AdaSpeech 2)</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/ppgs/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/fs2/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/untrans/GeneralSentence/00002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Some have accepted it as a miracle without physical explanation.</em></p>
+<h4 id="vctk-female-1">VCTK Female</h4>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT Mel+Vocoder</th>
+<th style="text-align: center">Joint-training</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/recording/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/gt/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/nautilus/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">PPG-based</th>
+<th style="text-align: center">AdaSpeech</th>
+<th style="text-align: center">Ours(AdaSpeech 2)</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/ppgs/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/fs2/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/228F/untrans/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h4 id="vctk-male-1">VCTK Male</h4>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT Mel+Vocoder</th>
+<th style="text-align: center">Joint-training</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/recording/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/gt/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/nautilus/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">PPG-based</th>
+<th style="text-align: center">AdaSpeech</th>
+<th style="text-align: center">Ours(AdaSpeech 2)</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/ppgs/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/fs2/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/245M/untrans/GeneralSentence/00004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>the invention of movable metal letters in the middle of the fifteenth century may justly be considered as the invention of the art of printing.</em></p>
+<h4 id="ljspeech">LJSpeech</h4>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT Mel+Vocoder</th>
+<th style="text-align: center">Joint-training</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Lj/0000000005.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Lj/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Lj/nautilus.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">PPG-based</th>
+<th style="text-align: center">AdaSpeech</th>
+<th style="text-align: center">Ours(AdaSpeech 2)</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Lj/ppgs.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Lj/trans.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Lj/untrans.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="analyses-on-adaptation-strategy">Analyses on adaptation strategy</h3>
+<p><em>When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Origin</th>
+<th style="text-align: center">Without L2 loss constraint</th>
+<th style="text-align: center">Fine-tune mel encoder & decoder</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Analyses/Origin.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Analyses/withoutL2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/Analyses/Both.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="varying-adaptation-data">Varying Adaptation Data</h3>
+<p><em>Please call stella.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">1 samples</th>
+<th style="text-align: center">2 samples</th>
+<th style="text-align: center">5 samples</th>
+<th style="text-align: center">10 samples</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/vary/1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/vary/2.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/vary/5.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/vary/10.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">20 samples</th>
+<th style="text-align: center">50 samples</th>
+<th style="text-align: center">100 samples</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/vary/20.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/vary/50.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech2/vary/100.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a><br>
+<a href="/seminas/">Semi-Supervised Neural Architecture Search</a><br>
+<a href="/multispeech/">MultiSpeech: Multi-Speaker Text to Speech with Transformer</a><br>
+<a href="/lrspeech/">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</a><br>
+<a href="/deepsinger/">DeepSinger: Singing Voice Synthesis with Data Mined From the Web</a><br>
+<a href="/uwspeech/">UWSpeech: Speech to Speech Translation for Unwritten Languages</a><br>
+<a href="/adaspeech/">AdaSpeech: Adaptive Text to Speech for Custom Voice</a><br></p>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

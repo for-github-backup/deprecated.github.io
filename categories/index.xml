@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Speech Research</title>
+    <link>https://speechresearch.github.io/categories/</link>
+    <description>Recent content in Categories on Speech Research</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 06 Oct 2021 21:35:07 +0800</lastBuildDate>
+    
+	<atom:link href="https://speechresearch.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ASR</title>
+      <link>https://speechresearch.github.io/categories/asr/</link>
+      <pubDate>Wed, 06 Oct 2021 21:35:07 +0800</pubDate>
+      
+      <guid>https://speechresearch.github.io/categories/asr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Speech synthesis</title>
+      <link>https://speechresearch.github.io/categories/speech-synthesis/</link>
+      <pubDate>Wed, 06 Oct 2021 21:35:07 +0800</pubDate>
+      
+      <guid>https://speechresearch.github.io/categories/speech-synthesis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MusicGeneration</title>
+      <link>https://speechresearch.github.io/categories/musicgeneration/</link>
+      <pubDate>Tue, 21 Sep 2021 12:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/categories/musicgeneration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LyricsGeneration</title>
+      <link>https://speechresearch.github.io/categories/lyricsgeneration/</link>
+      <pubDate>Mon, 16 Aug 2021 12:25:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/categories/lyricsgeneration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Speech translation</title>
+      <link>https://speechresearch.github.io/categories/speech-translation/</link>
+      <pubDate>Fri, 12 Jun 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/categories/speech-translation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Singing</title>
+      <link>https://speechresearch.github.io/categories/singing/</link>
+      <pubDate>Fri, 14 Feb 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/categories/singing/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

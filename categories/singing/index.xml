@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Singing on Speech Research</title>
+    <link>https://speechresearch.github.io/categories/singing/</link>
+    <description>Recent content in Singing on Speech Research</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 14 Feb 2020 15:30:00 +0901</lastBuildDate>
+    
+	<atom:link href="https://speechresearch.github.io/categories/singing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DeepSinger: Singing Voice Synthesis with Data Mined From the Web</title>
+      <link>https://speechresearch.github.io/deepsinger/</link>
+      <pubDate>Fri, 14 Feb 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/deepsinger/</guid>
+      <description>Authors  Yi Ren* (Zhejiang University) rayeren@zju.edu.cn Xu Tan* (Microsoft Research Asia) xuta@microsoft.com Tao Qin (Microsoft Research Asia) taoqin@microsoft.com Jian Luan (Microsoft STCA) jianluan@microsoft.com Zhou Zhao (Zhejiang University) zhaozhou@zju.edu.cn Tie-Yan Liu (Microsoft Research Asia) tyliu@microsoft.com  * Equal contribution.
+Chinese   /  Sample 1 Sample 2 Sample 3   Data crawling Your browser does not support the audio element.
+Lyrics: 爱从不容许人三心两意
+Phonemes: PAD ai c ong b u r ong x v r en s an x in l iang PAD i Your browser does not support the audio element.</description>
+    </item>
+    
+  </channel>
+</rss>

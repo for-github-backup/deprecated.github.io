@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>FastSpeech 2: Fast and High-Quality End-to-End Text to Speech - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">FastSpeech 2: Fast and High-Quality End-to-End Text to Speech</h1>
+			
+			<section itemprop="entry-text">
+				<br>
+<p>ArXiv: <a href="https://arxiv.org/abs/2006.04558">arXiv:2006.04558</a></p>
+<h2 id="authors">Authors</h2>
+<ul>
+<li>Yi Ren* (Zhejiang University) <a href="mailto:rayeren@zju.edu.cn">rayeren@zju.edu.cn</a></li>
+<li>Chenxu Hu* (Zhejiang University) <a href="mailto:chenxuhu@zju.edu.cn">chenxuhu@zju.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Tao Qin (Microsoft Research) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Sheng Zhao (Microsoft Azure Speech) <a href="mailto:Sheng.Zhao@microsoft.com">Sheng.Zhao@microsoft.com</a></li>
+<li>Zhou Zhao (Zhejiang University) <a href="mailto:zhaozhou@zju.edu.cn">zhaozhou@zju.edu.cn</a></li>
+<li>Tie-Yan Liu (Microsoft Research) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<p><small>* Equal contribution.</small></p>
+<h2 id="abstract">Abstract</h2>
+<p>Non-autoregressive text to speech (TTS) models such as FastSpeech~\citep{ren2019fastspeech} can synthesize speech significantly faster than previous autoregressive models with comparable quality. The training of FastSpeech model relies on an autoregressive teacher model for duration prediction (to provide more information as input) and knowledge distillation (to simplify the data distribution in output), which can ease the one-to-many mapping problem (i.e., multiple speech variations correspond to the same text) in TTS. However, FastSpeech has several disadvantages: 1) the teacher-student distillation pipeline is complicated and time-consuming, 2) the duration extracted from the teacher model is not accurate enough, and the target mel-spectrograms distilled from teacher model suffer from information loss due to data simplification, both of which limit the voice quality. In this paper, we propose FastSpeech 2, which addresses the issues in FastSpeech and better solves the one-to-many mapping problem in TTS by 1) directly training the model with ground-truth target instead of the simplified output from teacher, and 2) introducing more variation information of speech (e.g., pitch, energy and more accurate duration) as conditional inputs. Specifically, we extract duration, pitch and energy from speech waveform and directly take them as conditional inputs in training and use predicted values in inference. We further design FastSpeech 2s, which is the first attempt to directly generate speech waveform from text in parallel, enjoying the benefit of fully end-to-end inference. Experimental results show that 1) FastSpeech 2 achieves a 3x training speed-up over FastSpeech, and FastSpeech 2s enjoys even faster inference speed; 2) FastSpeech 2 and 2s outperform FastSpeech in voice quality, and FastSpeech 2 can even surpass autoregressive models.</p>
+<h2 id="audio-samples">Audio Samples</h2>
+<p>All of the audio samples use Parallel WaveGAN (PWG) as vocoder. For all audio samples, the background noise of LJSpeech is reduced using spectral subtraction.</p>
+<h3 id="comparison-with-other-models">Comparison with Other Models</h3>
+<p><em>Were the leaders in this luckless change, though our own Baskerville, who was at work some years before them, went much on the same lines.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT (PWG)</th>
+<th style="text-align: center">Transformer TTS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_recording_2/0000000004.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_pwg_2/0000000004.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/transtts_2/0000000004.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech</th>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2s</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs1_kd_attention/0000000004.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2/0000000004.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s/0000000004.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><br><em>And were occupied as a rule by ten to fifteen people when the prison was not crowded, but double the number was occasionally placed in them.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT (PWG)</th>
+<th style="text-align: center">Transformer TTS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_recording_2/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_pwg_2/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/transtts_2/0000000009.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech</th>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2s</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs1_kd_attention/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s/0000000009.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><br><em>Was used for debtors arrested for the lowest sums within twelve miles of the palace of Whitehall.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT (PWG)</th>
+<th style="text-align: center">Transformer TTS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_recording_2/0000000014.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_pwg_2/0000000014.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/transtts_2/0000000014.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech</th>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2s</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs1_kd_attention/0000000014.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2/0000000014.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s/0000000014.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><br><em>Notably as when numbers filled Newgate in anticipation of Lord Redesdale&rsquo;s bill for insolvent debtors.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT (PWG)</th>
+<th style="text-align: center">Transformer TTS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_recording_2/0000000016.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_pwg_2/0000000016.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/transtts_2/0000000016.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech</th>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2s</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs1_kd_attention/0000000016.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2/0000000016.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s/0000000016.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><br><em>Others who arrived just after the time of distribution were often forty-eight hours without food. The latter might also be six days without meat.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT (PWG)</th>
+<th style="text-align: center">Transformer TTS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_recording_2/0000000017.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/gt_pwg_2/0000000017.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/transtts_2/0000000017.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech</th>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">FastSpeech 2s</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs1_kd_attention/0000000017.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2/0000000017.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s/0000000017.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<h3 id="ablation-study">Ablation Study</h3>
+<p><em>Most of Caxton&rsquo;s own types are of an earlier character, though they also much resemble Flemish or Cologne letter.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">- CWT </th>
+<th style="text-align: center">- Pitch </th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2/0000000002.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2-cwt/0000000002.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2-pitch/0000000002.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">- Energy </th>
+<th style="text-align: center">- Energy Pitch </th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2-energy/0000000002.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2-pitch-energy/0000000002.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2s</th>
+<th style="text-align: center">- CWT </th>
+<th style="text-align: center">- Pitch </th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s/0000000002.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-cwt/0000000002.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-pitch/0000000002.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">- Energy </th>
+<th style="text-align: center">- Energy Pitch </th>
+<th style="text-align: center">- Mel Decoder </th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-energy/0000000002.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-pitch-energy/0000000002.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-mel_decoder/0000000002.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<p><br><em>And were occupied as a rule by ten to fifteen people when the prison was not crowded, but double the number was occasionally placed in them.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2</th>
+<th style="text-align: center">- CWT </th>
+<th style="text-align: center">- Pitch </th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2-cwt/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2-pitch/0000000009.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">- Energy </th>
+<th style="text-align: center">- Energy Pitch </th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2-energy/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2-pitch-energy/0000000009.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">FastSpeech 2s</th>
+<th style="text-align: center">- CWT </th>
+<th style="text-align: center">- Pitch </th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-cwt/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-pitch/0000000009.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<table><thead>
+<tr>
+<th style="text-align: center">- Energy </th>
+<th style="text-align: center">- Energy Pitch </th>
+<th style="text-align: center">- Mel Decoder </th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-energy/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-pitch-energy/0000000009.mp3" autoplay/></audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/fastspeech2/audio/fs2s-mel_decoder/0000000009.mp3" autoplay/></audio></td>
+</tr>
+</tbody></table>
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="/unsuper/">Almost Unsupervised Text to Speech and Automatic Speech Recognition</a><br>
+<a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a><br>
+<a href="/seminas/">Semi-Supervised Neural Architecture Search</a><br>
+<a href="/multispeech/">MultiSpeech: Multi-Speaker Text to Speech with Transformer</a><br>
+<a href="/lrspeech/">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</a><br>
+<a href="/deepsinger/">DeepSinger: Singing Voice Synthesis with Data Mined From the Web</a><br>
+<a href="/uwspeech/">UWSpeech: Speech to Speech Translation for Unwritten Languages</a><br>
+<a href="/denoispeech/">Denoising Text to Speech with Frame-Level Noise Modeling</a><br></p>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

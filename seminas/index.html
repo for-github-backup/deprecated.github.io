@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>Semi-Supervised Neural Architecture Search - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">Semi-Supervised Neural Architecture Search</h1>
+			
+			<section itemprop="entry-text">
+				<br>
+<p>ArXiv: <a href="https://arxiv.org/abs/2002.10389">arXiv:2002.10389</a></p>
+<h2 id="authors">Authors</h2>
+<ul>
+<li>Renqian Luo (University of Science and Technology of China) <a href="mailto:lrq@mail.ustc.edu.cn">lrq@mail.ustc.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Rui Wang (Microsoft Research) <a href="mailto:ruiwa@microsoft.com">ruiwa@microsoft.com</a></li>
+<li>Tao Qin (Microsoft Research) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Enhong Chen (University of Science and Technology of China) <a href="mailto:cheneh@ustc.edu.cn">cheneh@ustc.edu.cn</a></li>
+<li>Tie-Yan Liu (Microsoft Research) <a href="mailto:tyliu@microsoft.com">tyliu@microsoft.com</a></li>
+</ul>
+<h2 id="abstract">Abstract</h2>
+<p>Neural architecture search (NAS) relies on a good controller to generate better architectures or predict the accuracy of given architectures. However, training the controller requires both abundant and high-quality pairs of architectures and their accuracy, while it is costly to evaluate an architecture and obtain its accuracy. In this paper, we propose SemiNAS, a semi-supervised NAS approach that leverages numerous unlabeled architectures (without evaluation and thus nearly no cost) to improve the controller. Specifically, SemiNAS 1) trains an initial controller with a small set of architecture-accuracy data pairs; 2) uses the trained controller to predict the accuracy of large amount of architectures~(without evaluation); and 3) adds the generated data pairs to the original data to further improve the controller. SemiNAS has two advantages: 1) It reduces the computational cost under the same accuracy guarantee. 2) It achieves higher accuracy under the same computational cost. On NASBench-101 benchmark dataset, it discovers a top 0.01% architecture after evaluating roughly 300 architectures, with only 1/7 computational cost compared with regularized evolution and gradient-based methods. On ImageNet, it achieves a state-of-the-art top-1 error rate of 23.5% (under the mobile setting) using 4 GPU-days for search. We further apply it to LJSpeech text to speech task and it achieves 97% intelligibility rate in the low-resource setting and 15% test error rate in the robustness setting, with 9%, 7% improvements over the baseline respectively.</p>
+<h2 id="model-architecture">Model Architecture</h2>
+<h3 id="low-resource-setting">Low-Resource Setting</h3>
+<img src="../images/seminas/Arch_by_SemiNAS_for_low_resource_TTS.png" width="100%"/>
+<h3 id="robustness-setting">Robustness Setting</h3>
+<img src="../images/seminas/Arch_by_SemiNAS_for_robust_TTS.png" width="100%"/>
+<h2 id="audio-samples">Audio Samples</h2>
+<p>All of the audio samples use Griffin-Lim as vocoder.</p>
+<h3 id="low-resource-setting-1">Low-Resource Setting</h3>
+<p>*The good it tried to do took active shape in the establishment of temporary refuges - at hoxton for males and in the hackney road for females</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0001.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0001.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0001.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*But shall also tend more effectually to preserve the health</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Hired a room for the night and morning which he and a large party of friends occupied before and during the execution</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0003.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0003.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0003.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Every link in that great human chain is shaken along the whole lengthened line has the motion jarred and each in turn sees</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0004.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*This phial he had managed to retain in his possession in spite of the frequent searches to which he was subjected in newgate</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0005.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0005.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0005.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*No time was lost in carrying out the dread ceremony but it was not completed without some of the officials turning sick and the moment it was over</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0006.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0006.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0006.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*No other employee has been found who saw oswald enter that morning</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0007.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Three months prior to his regularly scheduled separation date ostensibly to care for his mother who had been injured in an accident at her work</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0008.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0008.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0008.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Oswald&rsquo;s activities with regard to cuba raise serious questions as to how much he might have been motivated in the assassination</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Lawson also in the lead car did not scan any buildings since an important part of his job was to look backward at the president&rsquo;s car</p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT(Griffin-Lim)</th>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/GriffinLim/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/TransformerTTS/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/low_resource/SemiNAS/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="robustness-setting-1">Robustness Setting</h3>
+<p>*Allergic trouser.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/robustness/TransformerTTS/0002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/robustness/SemiNAS/0002.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Christmas is coming.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/robustness/TransformerTTS/0003.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/robustness/SemiNAS/0003.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p>*Nineteen twenty is when we are unique together until we realise we are all the same.</p>
+<table><thead>
+<tr>
+<th style="text-align: center">Transformer TTS</th>
+<th style="text-align: center">SemiNAS</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/robustness/TransformerTTS/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/seminas/robustness/SemiNAS/0010.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h2 id="our-related-works">Our Related Works</h2>
+<p><a href="https://arxiv.org/abs/1808.07233">Neural Architecture Optimization</a>
+<br>
+<a href="/fastspeech/">FastSpeech: Fast, Robust and Controllable Text to Speech</a>
+<br>
+<a href="/fastspeech2/">FastSpeech 2: Fast and High-Quality End-to-End Text to Speech</a>
+<br>
+<a href="/LRSpeech/">LRSpeech: Extremely Low-Resource Speech Synthesis and Recognition</a>
+<br>
+<a href="/unsuper/">Almost Unsupervised Text to Speech and Automatic Speech Recognition</a></p>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>AdaSpeech 3: Adaptive Text to Speech for Spontaneous Style - Speech Research</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		
+			
+		
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">AdaSpeech 3: Adaptive Text to Speech for Spontaneous Style</h1>
+			
+			<section itemprop="entry-text">
+				<h2 id="author">Author</h2>
+<ul>
+<li>Yuzi Yan (EE, Tsinghua University) <a href="mailto:yan-yz17@mails.tsinghua.edu.cn">yan-yz17@mails.tsinghua.edu.cn</a></li>
+<li>Xu Tan (Microsoft Research Asia) <a href="mailto:xuta@microsoft.com">xuta@microsoft.com</a></li>
+<li>Bohan Li (Microsoft Azure Speech) <a href="mailto:bohan.li@microsoft.com">bohan.li@microsoft.com</a></li>
+<li>Guangyan Zhang (EE, The Chinese University of Hong Kong) <a href="mailto:gyzhang@link.cuhk.edu.hk">gyzhang@link.cuhk.edu.hk</a></li>
+<li>Tao Qin (Microsoft Research Asia) <a href="mailto:taoqin@microsoft.com">taoqin@microsoft.com</a></li>
+<li>Sheng Zhao (Microsoft Azure Speech) <a href="mailto:sheng.zhao@microsoft.com">sheng.zhao@microsoft.com</a></li>
+<li>Yuan Shen (EE, Tsinghua University) <a href="mailto:shenyuan_ee@tsinghua.edu.cn">shenyuan_ee@tsinghua.edu.cn</a></li>
+<li>Wei-Qiang Zhang (EE, Tsinghua University) <a href="mailto:wqzhang@tsinghua.edu.cn">wqzhang@tsinghua.edu.cn</a></li>
+<li>Tie-Yan Liu (Microsoft Research Asia) <a href="mailto:tie-yan.liu@microsoft.com">tie-yan.liu@microsoft.com</a></li>
+</ul>
+<!-- ## Abstract
+
+Text to speech (TTS) is widely used to synthesize speech. However, it is still a huge challenge to synthesize spontaneous speech like podcast or talk show for two main reasons: 1) lack of training data. Most mainstream datasets for TTS training are reading-style. 2) difficulty in modeling speaking style. Unlike reading-style speech, spontaneous speech has many natural filled pauses (um and uh). Besides, rhythm of it is more variable. In this paper, we propose a new method to address these problems by 1) constructing a spontaneous speech dataset, 2) analyzing the important factors in spontaneous speech like filled pauses (FPs) and rhythm, and 3) developing a spontaneous TTS pipeline through an adaptation way. Specifically, we introduce an FP predictor trained on spontaneous data to a TTS source model trained on reading-style data, which is managed to insert FPs appropriately. To obtain accurate control of the varying duration, we introduce MoE (Mixture of Experts) on duration predictor, which contains three seperate duration predictors that are responsible for the generation of fast, medium and slow speech respectively. We fine-tune it as well as a pitch predictor to achieve fine-grained duration and pitch control using spontaneous data. Besides, our model can also transfer the spontaneity to other speaker through speaker adaptation. Compared with previous TTS model, the proposed method achieves 0.30 better SMOS focusing on style similarity with spontaneous speech, and it achieves better results in MOS tests focusing on many different aspects.  -->
+<h2 id="audio-samples">Audio Samples</h2>
+<p>All of the audio samples use MelGAN as vocoder.</p>
+<h3 id="spontaneous-quality">Spontaneous Quality</h3>
+<p><em>cecily package in all of that <font color="red">um</font> yeah so &hellip;</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT Mel+Vocoder</th>
+<th style="text-align: center">AdaSpeech</th>
+<th style="text-align: center">AdaSpeech 3</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00005_gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00005_gt_melgan.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00005_ada.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00005_spon.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<!-- *ugly surprised it was one of the actually the best color we've you performing cooler we've reviewed so far*
+
+
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT Mel+Vocoder</th>
+<th style="text-align: center">AdaSpeech</th>
+<th style="text-align: center">adaspeech3</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00020_gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00020_gt_melgan.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00020_ada.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00020_spon.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table> -->
+<p><em>lot of stuff with the even CSA had igaming tournament they sponsored teams and their really get into the gaming it&rsquo;s that&rsquo;s coming.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">GT Mel+Vocoder</th>
+<th style="text-align: center">AdaSpeech</th>
+<th style="text-align: center">AdaSpeech 3</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00006_gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00006_gt_melgan.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00006_ada.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Quality_TC/00006_spon.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="fp-insertion">FP Insertion</h3>
+<h4 id="note-we-did-not-use-punctuation-marks--or--in-real-practice">Note: We did not use punctuation marks (, or .) in real practice.</h4>
+<p><em>Input: Six spoons of fresh snow peas, five thick slabs of blue cheese, and maybe a snack for her brother Bob.</em></p>
+<p><em>Output: Six spoons of fresh snow peas, <font color="red">um</font>, five thick slabs of blue cheese, and maybe a snack for her brother Bob.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">Before Insertion</th>
+<th style="text-align: center">After Insertion</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00007_gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00007_wo_FP.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00007_w_FP.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Input: When the sunlight strikes raindrops in the air, they act as a prism and form a rainbow.</em></p>
+<p><em>Output: When the sunlight strikes raindrops in the air, <font color="red">um</font>, they act as a prism and form a rainbow.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">Before Insertion</th>
+<th style="text-align: center">After Insertion</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00010_gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00010_wo_FP.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00010_w_FP.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>Input: Some have accepted it as a miracle without physical explanation.</em></p>
+<p><em>Output: Some have accepted it <font color="red">um</font> as a miracle without physical explanation.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">GT</th>
+<th style="text-align: center">Before Insertion</th>
+<th style="text-align: center">After Insertion</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00003_gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00003_wo_FP.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_quality/out00003_w_FP_new.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="speaker-adaptation-vctk">Speaker Adaptation (VCTK)</h3>
+<p><em>cecily package in all of that <font color="red">um</font> yeah so something any jamaican upgrade yeah it like said.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Original Sound</th>
+<th style="text-align: center">Male Adaptation</th>
+<th style="text-align: center">Female Adaptation</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/00005.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/out00005_male.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/out00005_female.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>lot of stuff with the even CSA had igaming tournament they sponsored teams and their really get into the gaming it&rsquo;s that&rsquo;s coming.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Original Sound</th>
+<th style="text-align: center">Male Adaptation</th>
+<th style="text-align: center">Female Adaptation</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/00006.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/out00006_male.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/out00006_female.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<p><em>amplifier from them was a kinda interesting a jackson he really liked it it&rsquo;s a good way to get bluetooth.</em></p>
+<table><thead>
+<tr>
+<th style="text-align: center">Original Sound</th>
+<th style="text-align: center">Male Adaptation</th>
+<th style="text-align: center">Female Adaptation</th>
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/00021.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/out00021_male.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/Transfer/out00021_female.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+</tr>
+</tbody></table>
+<h3 id="change-the-threshold-to-control-the-fp-indensity">Change the threshold to control the FP indensity</h3>
+<p><em>The rainbow <font color="red">um</font> is a division of white light into many beautiful colors.</em></p>
+<p><em>The rainbow <font color="red">um</font> is a division of white light <font color="green">uh</font>  into many beautiful colors.</em></p>
+<!-- *The rainbow <font color="red">um</font> is a division of white light <font color="green">uh</font>  into many <font color="green">uh</font> beautiful colors.* -->
+<table><thead>
+<tr>
+<th style="text-align: center">Threshold=0.1</th>
+<th style="text-align: center">Threshold=0.5</th>
+<!-- <th style="text-align: center">Threshold=0.9</th> -->
+</tr></thead><tbody>
+<tr>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_insert/out00011_1um_new.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_insert/out00011_1um1uh_newest.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+<!-- <td style="text-align: center"><audio controls="controls" ><source src="../audio/adaspeech3/FP_insert/out00011_1um2uh_new.wav" autoplay/>Your browser does not support the audio element.</audio></td> -->
+</tr>
+</tbody></table>
+
+			</section>
+		</article>
+	</main>
+
+
+	
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
+

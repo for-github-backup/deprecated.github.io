@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Speech translation on Speech Research</title>
+    <link>https://speechresearch.github.io/categories/speech-translation/</link>
+    <description>Recent content in Speech translation on Speech Research</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 12 Jun 2020 15:30:00 +0901</lastBuildDate>
+    
+	<atom:link href="https://speechresearch.github.io/categories/speech-translation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>UWSpeech: Speech to Speech Translation for Unwritten Languages</title>
+      <link>https://speechresearch.github.io/uwspeech/</link>
+      <pubDate>Fri, 12 Jun 2020 15:30:00 +0901</pubDate>
+      
+      <guid>https://speechresearch.github.io/uwspeech/</guid>
+      <description>ArXiv: arXiv:2006.07926 (Accepted by AAAI2021)
+Authors  Chen Zhang (Zhejiang University) zc99@zju.edu.cn Xu Tan (Microsoft Research) xuta@microsoft.com Yi Ren (Zhejiang University) rayeren@zju.edu.cn Tao Qin (Microsoft Research) taoqin@microsoft.com Kejun Zhang (Zhejiang University) zhangkejun@zju.edu.cn Tie-Yan Liu (Microsoft Research) tyliu@microsoft.com  Abstract Existing speech to speech translation systems heavily rely on the text of target language: they usually translate source language either to target text and then synthesize target speech from text, or directly to target speech with target text for auxiliary training.</description>
+    </item>
+    
+  </channel>
+</rss>
